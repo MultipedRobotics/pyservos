@@ -1,20 +1,20 @@
-.. image:: https://raw.githubusercontent.com/MomsFriendlyRobotCompany/pyxl320/master/pics/complex.gif
+.. image:: https://raw.githubusercontent.com/MomsFriendlyRobotCompany/pyservos/master/pics/complex.gif
     :align: center
     :width: 300px
-    :target: https://github.com/walchko/pyxl320
+    :target: https://github.com/walchko/pyservos
     :alt: animated gif
 
 pyServos
 =========
 
-.. image:: https://img.shields.io/pypi/v/pyxl320.svg
-    :target: https://pypi.python.org/pypi/pyxl320/
+.. image:: https://img.shields.io/pypi/v/pyservos.svg
+    :target: https://pypi.python.org/pypi/pyservos/
     :alt: Latest Version
-.. image:: https://img.shields.io/pypi/l/pyxl320.svg
-    :target: https://pypi.python.org/pypi/pyxl320/
+.. image:: https://img.shields.io/pypi/l/pyservos.svg
+    :target: https://pypi.python.org/pypi/pyservos/
     :alt: License
-.. image:: https://travis-ci.org/MomsFriendlyRobotCompany/pyxl320.svg?branch=master
-    :target: https://travis-ci.org/MomsFriendlyRobotCompany/pyxl320
+.. image:: https://travis-ci.org/MomsFriendlyRobotCompany/pyservos.svg?branch=master
+    :target: https://travis-ci.org/MomsFriendlyRobotCompany/pyservos
 
 
 This is still a work in progress and **only** supports AX-12A and XL-320. The
@@ -65,10 +65,10 @@ Command              Description
 ``set_id.py``        changes the ID number for a given servo
 ==================== ==============================================================
 
-`Documentation <https://github.com/walchko/pyxl320/tree/master/docs/Markdown>`_
+`Documentation <https://github.com/walchko/pyservos/tree/master/docs/Markdown>`_
 -------------------------------------------------------------------------------------
 
-The documents are stored in markdown files in the repo `here <https://github.com/walchko/pyxl320/tree/master/docs/Markdown>`_
+The documents are stored in markdown files in the repo `here <https://github.com/walchko/pyservos/tree/master/docs/Markdown>`_
 and cover hardware interface and software development. However, a simple example
 to turn the servo and turn the LED on using a USB serial converter:
 
@@ -106,7 +106,7 @@ your own using the basic ``makeWritePacket`` and ``makeReadPacket``.
 Robot Examples
 ------------------
 
-Here are some example `robots <https://github.com/walchko/pyxl320/tree/master/docs/robots/robots.md>`_
+Here are some example `robots <https://github.com/walchko/pyservos/tree/master/docs/robots/robots.md>`_
 
 Change Log
 -------------
