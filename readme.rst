@@ -45,7 +45,6 @@ To submit git pulls, clone the repository and set it up as follows::
 
 	git clone https://github.com/walchko/pyservos
 	cd pyservos
-	pip install -r requirements
 	pip install -e .
 
 Usage
