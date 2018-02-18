@@ -23,7 +23,7 @@ library is divided up as follows:
  - pyservos
  	- **ServoSerial** - half duplex hardware serial interface
 	- **Packet** - creates packets to talk to the servo
-	- **debug** - misc
+	- **utils** - misc
 	- **XL320** - register/command/error definitions for Dynamixel's XL-320 servo
 	- **AX12** - register/command/error definitions for Dynamixel's AX-12A servo
 
@@ -65,15 +65,17 @@ Command              Description
 ``set_id.py``        changes the ID number for a given servo
 ==================== ==============================================================
 
-`Documentation <https://github.com/walchko/pyservos/tree/master/docs/Markdown>`_
+Documentation
 -------------------------------------------------------------------------------------
 
-The documents are stored in markdown files in the repo `here <https://github.com/walchko/pyservos/tree/master/docs/Markdown>`_
-and cover hardware interface and software development. However, a simple example
-to turn the servo and turn the LED on using a USB serial converter:
+- `AX-12A Servo <https://github.com/MomsFriendlyRobotCompany/pyservos/tree/master/docs/ax12>`_
+- `XL-320 Servo <https://github.com/MomsFriendlyRobotCompany/pyservos/tree/master/docs/xl320>`_
+
+A simple example to turn the servo and turn the LED on using a USB serial converter:
 
 .. code-block:: python
 
+	# Run an AX-12 servo
 	from pyservos import ServoSerial, Packet, AX12
 
 	serial = ServoSerial('/dev/tty.usbserial')  # tell it what port you want to use
@@ -92,21 +94,22 @@ your own using the basic ``makeWritePacket`` and ``makeReadPacket``.
 
 .. code-block:: python
 
+	# Run an XL-320 servo
 	from pyservos import Packet, XL320
-	from pyservos.Packet import le  # creates little endian numbers
+	from pyservos.utils import angle2int
 
 	xl = Packet(XL320)
 
 	# let's make our own servo packet that sends servo 3 to 220.1 degrees
 	ID = 3
 	reg = XL320.GOAL_POSITION
-	params = le(int(220.1/300*1023))  # convert 220.1 degrees to an int between 0-1023
+	params = angle2int(220.1)  # convert 220.1 degrees to an int between 0-1023
 	pkt = xl.makeWritePacket(ID, reg, params)
 
 Robot Examples
 ------------------
 
-Here are some example `robots <https://github.com/walchko/pyservos/tree/master/docs/robots/robots.md>`_
+Here are some example `robots <https://github.com/MomsFriendlyRobotCompany/pyservos/tree/master/docs/robots>`_
 
 Change Log
 -------------
