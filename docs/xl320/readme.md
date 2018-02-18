@@ -135,6 +135,8 @@ circuit** shown above.
 The xl-320 servos use a half duplex uart serial interface to send packets
 of back and forth between the servo and the controlling computer.
 
+[e-Manual](http://emanual.robotis.com/docs/en/dxl/x/xl320/)
+
 ## Packet Basics
 
 |Header                  | ID | Length        | Instruction | Parameter                     | CRC |

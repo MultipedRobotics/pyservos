@@ -36,6 +36,14 @@ Default Setting | ID 1 (1 Mbps)
 
 # Parts
 
+| Item | Part |
+|---|---|
+| Pinout | 1. GND <br> 2. VDD <br> 3. DATA |
+| Housing | ![](pics/molex_50375033.png) <br> [MOLEX 50-37-5033](http://www.molex.com/molex/products/datasheet.jsp?part=active/0050375033_CRIMP_HOUSINGS.xml)|
+| PCB Header | ![](pics/molex_22035035.png) <br> [MOLEX 22-03-5035](http://www.molex.com/molex/products/datasheet.jsp?part=active/0022035035_PCB_HEADERS.xml) |
+| Crimp Terminal | [MOLEX 80-70-1039](http://www.molex.com/molex/products/datasheet.jsp?part=active/0008701039_CRIMP_TERMINALS.xml) |
+| Wire Gauge | 21 AWG |
+
 ![](pics/AX-12-dimensions.png)
 
 ![](pics/AX-12-frames.png)
