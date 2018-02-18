@@ -13,7 +13,7 @@ Stall Current (A) | 1.5
 No Load Speed (RPM) | 59 (12V)
 Motor | Cored Motor
 Minimum Control Angle | about 0.29 degrees x 1,024
-Operating Range | Actuator Mode : 300 degrees Wheel Mode : Endless turn
+Operating Range | Actuator Mode : 300 degrees <br> Wheel Mode : Endless turn
 Operating Voltage | 9-12V (Recommended voltage : 11.1V)
 Max. Current | 900mA
 Standby Current | 50mA
@@ -24,7 +24,7 @@ Link (physical) | TTL Level Multi Drop (daisy chain type Connector)
 ID | 254 ID (0-253)
 Baud Rate | 7843bps - 1 Mbps
 Feedback Functions | Position, Temperature, Load, Input Voltage, etc.
-Material | Case : Engineering Plastic Gear : Engineering Plastic
+Material | Case : Engineering Plastic <br> Gear : Engineering Plastic
 Position Sensor | Potentiometer
 Default Setting | ID 1 (1 Mbps)
 
@@ -33,6 +33,12 @@ Default Setting | ID 1 (1 Mbps)
 [e-Manual](http://emanual.robotis.com/docs/en/dxl/ax/ax-12a/)
 
 [AX-12A dimensions](AX-12A.pdf)
+
+# Interfaces
+
+![](pics/ax_series_circuit.png)
+
+![](pics/ax_series_pin.png)
 
 # Parts
 
