@@ -8,6 +8,7 @@
 
 from __future__ import division
 from __future__ import print_function
+# from .utils import le, angle2int
 
 
 class AX12(object):
@@ -92,9 +93,11 @@ class AX12(object):
 		"""
 		pkt = [0xff, 0xff, ID]
 		if params:
+			# print(params)
 			length = len(params) + 2
 			pkt += [length, instr]
 			pkt += params
+			# print(self.check_sum(pkt[2:]))
 			pkt += [self.check_sum(pkt[2:])]
 		else:
 			pkt += [2, instr, self.check_sum([ID, 2, instr])]
@@ -103,7 +106,7 @@ class AX12(object):
 
 	def find_packets(self, pkt):
 		"""
-		Search through a string of binary for a valid xl320 package.
+		Search through a string of binary for a valid ax-12 package.
 
 		in: buffer to search through
 		out: a list of valid data packet

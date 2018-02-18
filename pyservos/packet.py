@@ -8,23 +8,24 @@ from __future__ import division
 from __future__ import print_function
 from .ax12 import AX12
 from .xl320 import XL320
+from .utils import angle2int, le
 
 
-def le(h):
-	"""
-	Little-endian, takes a 16b number and returns an array arrange in little
-	endian or [low_byte, high_byte].
-	"""
-	h &= 0xffff  # make sure it is 16 bits
-	return [h & 0xff, h >> 8]
-
-
-def angle2int(angle, degrees=True):
-	if degrees:
-		angle = le(int(angle/300*1023))  # degrees
-	else:
-		angle = le(int(angle/5.23598776*1023))  # radians
-	return angle
+# def le(h):
+# 	"""
+# 	Little-endian, takes a 16b number and returns an array arrange in little
+# 	endian or [low_byte, high_byte].
+# 	"""
+# 	h &= 0xffff  # make sure it is 16 bits
+# 	return [h & 0xff, h >> 8]
+#
+#
+# def angle2int(angle, degrees=True):
+# 	if degrees:
+# 		angle = le(int(angle/300*1023))  # degrees
+# 	else:
+# 		angle = le(int(angle/5.23598776*1023))  # radians
+# 	return angle
 
 
 # PacketManager
@@ -54,7 +55,18 @@ class Packet(object):
 		sure the values are in little endian (use Packet.le() if necessary) for 16 b
 		(word size) values.
 		"""
-		pkt = self.base.makePacket(ID, self.base.WRITE, [reg, values])
+		if values:
+			if self.base.SERVO_ID == XL320.SERVO_ID:
+				params = le(reg) + values
+			else:
+				params = [reg] + values
+		else:
+			if self.base.SERVO_ID == XL320.SERVO_ID:
+				params = le(reg)
+			else:
+				params = [reg]
+
+		pkt = self.base.makePacket(ID, self.base.WRITE, params)
 		return pkt
 
 	def makeReadPacket(self, ID, reg, values=None):
@@ -70,13 +82,19 @@ class Packet(object):
 		"""
 		Resets a servo.
 		"""
-		pkt = self.base.makePacket(ID, self.base.RESET)
+		if self.base.SERVO_ID == XL320.SERVO_ID:
+			params = [XL320.RESET_ALL_BUT_ID]
+		else:
+			params = None
+
+		pkt = self.base.makePacket(ID, self.base.RESET, params)
 		return pkt
 
 	def makeRebootPacket(self, ID):
 		"""
 		Reboots a servo
 		"""
+
 		pkt = self.base.makePacket(ID, self.base.REBOOT)
 		return pkt
 
@@ -84,8 +102,10 @@ class Packet(object):
 		"""
 		Commands the servo to an angle (in degrees)
 		"""
-		if not (0.0 <= angle <= 300.0):
-			raise Exception('makeServoPacket(), angle out of bounds: {}'.format(angle))
+		# if degrees and not (0.0 <= angle <= 300.0):
+		# 	raise Exception('makeServoMovePacket(), angle [deg] out of bounds: {}'.format(angle))
+		# elif (not degrees) and (not (0.0 <= angle <= 5.23598776)):
+		# 	raise Exception('makeServoMovePacket(), angle [rads] out of bounds: {}'.format(angle))
 		# val = int(angle/300*1023)
 		val = angle2int(angle, degrees)
 
@@ -149,8 +169,10 @@ class Packet(object):
 		if self.base.SERVO_ID == AX12.SERVO_ID:
 			if value < 0 or value > 1:
 				raise Exception("ERROR: LED can only be off or on: {}".format(value))
-		elif self.base.SERVO_ID == XL320.SERVO_ID:
-			print('Not implemented yet')
+			# value = [value]
+		# elif self.base.SERVO_ID == XL320.SERVO_ID:
+		# 	# print('Not implemented yet')
+		# 	value = [0, value]
 
 		pkt = self.makeWritePacket(ID, self.base.LED, [value])
 		return pkt
