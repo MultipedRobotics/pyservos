@@ -12,7 +12,7 @@ from pyservos import ServoSerial
 import pyservos
 
 
-port="/dev/tty.usbserial-AL034G1T"
+port = "/dev/tty.usbserial-AL034G1T"
 ID = 1
 angle = 200
 

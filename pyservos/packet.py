@@ -117,6 +117,8 @@ class Packet(object):
 		Write sync angle information to servos.
 
 		info = [[ID, angle], [ID, angle], ...]
+		ID: servo ID
+		angle: 0-300 degrees or in radians
 		"""
 		data = []
 
@@ -131,7 +133,7 @@ class Packet(object):
 			data.append(angle[0])  # LSB
 			data.append(angle[1])  # MSB
 
-		pkt = self.makeSyncPacket(self.base.GOAL_POSITION, data)
+		pkt = self.makeSyncWritePacket(self.base.GOAL_POSITION, data)
 		return pkt
 
 	def makeSyncWritePacket(self, reg, info):

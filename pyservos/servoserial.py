@@ -51,6 +51,7 @@ class ServoSerial(object):
 		"""
 		# redo port if it is fake
 		# not sure this works on Windows
+		# os.read(master,1000)
 		if port in ['dummy', 'fake', 'test', '/dev/null']:
 			master, slave = pty.openpty()
 			port = os.ttyname(slave)
