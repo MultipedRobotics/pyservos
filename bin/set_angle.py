@@ -36,7 +36,7 @@ def main():
 	args = handleArgs()
 
 	ID = args['id']
-	port = args['port']  # '/dev/tty.usbserial-A5004Flb'
+	port = args['port']
 	angle = args['angle']
 
 	print('Setting servo[{}] to {:.2f} on port {}'.format(ID, angle, port))
@@ -46,7 +46,7 @@ def main():
 
 	servo = Packet(pyservos.AX12)
 
-	pkt = servo.makeServoPacket(ID, angle)
+	pkt = servo.makeServoMovePacket(ID, angle)
 	ans = serial.sendPkt(pkt)  # send packet to servo
 	if ans:
 		print('status: {}'.format(ans))

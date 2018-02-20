@@ -146,10 +146,9 @@ class AX12(object):
 				'Overload',
 				'Instrunction',
 				'None'  # 7
-
 			]
-			ret = None
-			if err != 128:
+			# ret = None
+			if not (err == 128 or err == 0):
 				err_str = []
 				for i in range(0, 8):
 					if (err >> i) & 1:
