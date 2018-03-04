@@ -11,8 +11,8 @@ from __future__ import division
 from __future__ import print_function
 import serial as PySerial
 import time
-import os
-import pty
+# import os
+# import pty
 
 
 class ServoSerial(object):
@@ -39,7 +39,8 @@ class ServoSerial(object):
 	# SLEEP_TIME = 0.005    # sleep time between read/write
 	# SLEEP_TIME = 0.0005    # sleep time between read/write
 	SLEEP_TIME = 0.00005    # sleep time between read/write
-	fake = False
+	# fake = False
+	loop_addr = 'loop://'
 
 	def __init__(self, port, baud_rate=1000000):
 		"""
@@ -53,10 +54,12 @@ class ServoSerial(object):
 		# not sure this works on Windows
 		# os.read(master,1000)
 		if port in ['dummy', 'fake', 'test', '/dev/null']:
-			master, slave = pty.openpty()
-			port = os.ttyname(slave)
-			self.serial = PySerial.Serial(port)
-			self.fake = True
+			# import pty
+			# master, slave = pty.openpty()
+			# port = os.ttyname(slave)
+			# self.serial = PySerial.Serial(port)
+			# self.fake = True
+			self.serial = PySerial.serial_for_url(self.loop_addr, timeout=0.1)
 		else:
 			self.serial = PySerial.Serial()
 			self.serial.baudrate = baud_rate
@@ -72,8 +75,8 @@ class ServoSerial(object):
 		self.close()
 
 	def setRTS(self, level):
-		if self.fake:
-			return
+		# if self.fake:
+		# 	return
 
 		time.sleep(self.SLEEP_TIME)
 		# only need one of thse, but the lazy option to if statements to determin
@@ -83,7 +86,7 @@ class ServoSerial(object):
 		# time.sleep(self.SLEEP_TIME)
 
 	def open(self):
-		if self.serial.isOpen():
+		if self.serial.is_open:
 			# raise Exception('SeroSerial::open() ... Oops, port is already open')
 			return
 
@@ -100,8 +103,12 @@ class ServoSerial(object):
 	def decode(buff):
 		"""
 		Transforms the raw buffer data read in into a list of bytes
+
+		does serial.to_bypes() do the same thing?
 		"""
-		pp = list(map(ord, buff))
+		# print('>>>', buff)
+		# pp = list(map(ord, buff))
+		pp = list(bytearray(buff))
 		if 0 == len(pp) == 1:
 			pp = []
 		return pp
@@ -113,21 +120,12 @@ class ServoSerial(object):
 		packets of info. If there is more than one packet, this returns an
 		array of valid packets.
 		"""
-		# ret = self.readPkts(how_much)
-		# return ret
-		# ret = []
 		self.setRTS(self.DD_READ)
-
-		# this in_waiting is wrong ... i can read more than is there
-		# if self.serial.in_waiting < 12:
-		# 	time.sleep(0.001)
-		# 	print('waiting:', self.serial.in_waiting)
-		# else:
-		# 	print('waiting:', self.serial.in_waiting)
 
 		data = self.serial.read(how_much)
 		# print('read() data', data, 'len(data)', len(data))
 		if data:
+			# print('>>', data)
 			data = self.decode(data)
 			# print('decode', data)
 			# ret = Packet.findPkt(data)
@@ -250,7 +248,7 @@ class ServoSerial(object):
 		"""
 		If the serial port is open, it closes it.
 		"""
-		if self.serial.isOpen():
+		if self.serial.is_open:
 			self.serial.close()
 
 	def flushInput(self):

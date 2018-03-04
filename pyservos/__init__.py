@@ -8,4 +8,4 @@ from .packet import Packet
 __copyright__ = 'Copyright (c) 2016 Kevin Walchko'
 __license__ = 'MIT'
 __author__ = 'Kevin J. Walchko'
-__version__ = '1.0.1'
+__version__ = '1.0.2'

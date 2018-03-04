@@ -27,10 +27,11 @@ def packet_check(a, b):
 def test_fake_serial():
 	s = ServoSerial('/dev/null')
 	s.open()
-	msg = [71, 72, 73]
+	msg = [71, 72, 73]  # ascii: GHI
 	s.write(msg)
 	ret = s.read()
 	for r, m in zip(ret, msg):
+		print(r, m)
 		assert r == m
 
 	s.write(msg)
