@@ -17,6 +17,8 @@ pyServos
     :target: https://travis-ci.org/MomsFriendlyRobotCompany/pyservos
 
 
+**Still under development**
+
 This is still a work in progress and **only** supports AX-12A and XL-320. The
 library is divided up as follows:
 

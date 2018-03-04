@@ -53,9 +53,9 @@ setup(
 		'bin/set_id.py',
 		'bin/servo_ping.py',
 		'bin/set_angle.py',
-		'bin/set_baud_rate.py',
-		'bin/servo_reboot.py',
-		'bin/servo_reset.py',
-		'bin/get_angle.py'
+		# 'bin/set_baud_rate.py',
+		# 'bin/servo_reboot.py',
+		# 'bin/servo_reset.py',
+		# 'bin/get_angle.py'
 	]
 )
