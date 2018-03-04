@@ -46,7 +46,7 @@ crc_table = [
 
 
 class XL320(object):
-	SERVO_ID = 2
+	SERVO_ID = 2  # used to tell AX and XL servos appart
 
 	# --------- INSTRUCTIONS -----
 	PING      = 0x01

@@ -15,7 +15,7 @@ class AX12(object):
 	"""
 	This class handles the AX-12A servo using Dynimel's Protocol version 1.0.
 	"""
-	SERVO_ID = 1
+	SERVO_ID = 1  # used to tell AX and XL servos appart
 
 	# --------- INSTRUCTIONS -----
 	PING      = 0x01

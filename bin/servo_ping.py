@@ -27,7 +27,7 @@ def print_status_pkt(info):
 	print('raw pkt: {}'.format(info['raw']))
 
 
-def ping(port, rate, ID, retry=3):
+def ping(port, rate, ID, servoType, retry=3):
 	"""
 	Sends a ping packet to ID's from 0 to maximum and prints out any returned
 	messages.
@@ -53,7 +53,7 @@ def ping(port, rate, ID, retry=3):
 		print(e)
 		exit(1)
 
-	servo = Packet(pyservos.AX12)
+	servo = Packet(servoType)
 
 	pkt = servo.makePingPacket(ID)
 	# print('ping', pkt)
@@ -107,6 +107,8 @@ def handleArgs():
 	parser = argparse.ArgumentParser(description=DESCRIPTION, formatter_class=argparse.RawTextHelpFormatter)
 	parser.add_argument('-r', '--rate', help='servo baud rate', type=int, default=1000000)
 	parser.add_argument('-i', '--id', help='ping servo ID', type=int, default=-1)
+	# parser.add_argument('-a', '--ax12', help='AX-12A servo', type=bool, default=-1)
+	# parser.add_argument('-x', '--xl320', help='XL-320 servo', type=bool, default=-1)
 	parser.add_argument('port', help='serial port name, set to "dummy" for testing', type=str)
 
 	args = vars(parser.parse_args())
@@ -115,4 +117,5 @@ def handleArgs():
 
 if __name__ == '__main__':
 	args = handleArgs()
-	ping(port=args['port'], rate=args['rate'], ID=args['id'])
+	sType = pyservos.AX12
+	ping(port=args['port'], rate=args['rate'], ID=args['id'], servoType=sType)
