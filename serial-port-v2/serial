@@ -1,0 +1,36 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <title>KiCad BOM Example 5</title>
+    </head>
+    <body>
+    <h1>/Users/kevin/github/pyservos/serial-port-v2/serial.sch</h1>
+    <p>Monday, March 05, 2018 'PMt' 10:16:44 PM</p>
+    <p>Eeschema 4.0.7</p>
+    <p><b>Component Count:</b>25</p>
+    <table>
+    <tr><th style='width:640px'>Ref</th><th>Qnty</th><th>Value</th><th>Part</th><th>Footprint</th><th>Description</th><th>Vendor</th></tr>
+    <tr><td>C1, C3, C4</td><td>3</td><td>.1</td><td>device:C</td><td>Capacitors_SMD:C_1206_HandSoldering</td><td>Unpolarized capacitor</td><td></td></tr>
+    <tr><td>C2</td><td>1</td><td>10</td><td>device:CP</td><td>Capacitors_THT:CP_Radial_D6.3mm_P2.50mm</td><td>Polarised capacitor</td><td></td></tr>
+    <tr><td>D1</td><td>1</td><td>PWR</td><td>device:LED</td><td>LEDs:LED_1206_HandSoldering</td><td>LED generic</td><td></td></tr>
+    <tr><td>D2</td><td>1</td><td>TX</td><td>device:LED</td><td>LEDs:LED_1206_HandSoldering</td><td>LED generic</td><td></td></tr>
+    <tr><td>D3</td><td>1</td><td>RX</td><td>device:LED</td><td>LEDs:LED_1206_HandSoldering</td><td>LED generic</td><td></td></tr>
+    <tr><td>J1</td><td>1</td><td>12V Pwr</td><td>conn:Barrel_Jack</td><td>Connectors:BARREL_JACK</td><td>DC Barrel Jack</td><td></td></tr>
+    <tr><td>J2</td><td>1</td><td>Serial</td><td>conn:Conn_01x05</td><td>Pin_Headers:Pin_Header_Straight_1x05_Pitch2.54mm</td><td>Generic connector, single row, 01x05</td><td></td></tr>
+    <tr><td>J3, J5</td><td>2</td><td>XL-320</td><td>conn:Conn_01x03</td><td>Connectors_Molex:Molex_MicroLatch-53253-0370_03x2.00mm_Straight</td><td>Generic connector, single row, 01x03</td><td></td></tr>
+    <tr><td>J4, J6</td><td>2</td><td>AX-12A</td><td>conn:Conn_01x03</td><td>Connectors_Molex:Molex_SPOX-5267_22-03-5035_03x2.54mm_Straight</td><td>Generic connector, single row, 01x03</td><td></td></tr>
+    <tr><td>Q1</td><td>1</td><td>BSS138</td><td>transistors:BSS138</td><td>TO_SOT_Packages_SMD:SOT-23_Handsoldering</td><td>50V Vds, 0.22 A Id, N-channel MOSFET, SOT-23</td><td></td></tr>
+    <tr><td>R1, R2, R6, R7</td><td>4</td><td>330</td><td>device:R</td><td>Resistors_SMD:R_1206_HandSoldering</td><td>Resistor</td><td></td></tr>
+    <tr><td>R3</td><td>1</td><td>1.8k</td><td>device:R</td><td>Resistors_SMD:R_1206_HandSoldering</td><td>Resistor</td><td></td></tr>
+    <tr><td>R4, R5</td><td>2</td><td>10k</td><td>device:R</td><td>Resistors_SMD:R_1206_HandSoldering</td><td>Resistor</td><td></td></tr>
+    <tr><td>U1</td><td>1</td><td>AP1117-50</td><td>regul:AP1117-50</td><td>TO_SOT_Packages_SMD:SOT-223-3Lead_TabPin2</td><td>1A Low Dropout regulator, positive, 1.5V fixed output, SOT-223</td><td></td></tr>
+    <tr><td>U2</td><td>1</td><td>LM317</td><td>regul:LM317_3PinPackage</td><td>TO_SOT_Packages_THT:TO-220-3_Horizontal</td><td>1A 35V Adjustable Linear Regulator, SOT-89/SOT-223/TO-220/TO-252/TO-263</td><td></td></tr>
+    <tr><td>U4</td><td>1</td><td>74LVC1G126</td><td>Logic_74xgxx:74LVC1G126</td><td>TO_SOT_Packages_SMD:SOT-23-5_HandSoldering</td><td>Single Buffer Gate Tri-State, Low-Voltage CMOS</td><td></td></tr>
+    <tr><td>U5</td><td>1</td><td>74LVC1G125</td><td>Logic_74xgxx:74LVC1G125</td><td>TO_SOT_Packages_SMD:SOT-23-5_HandSoldering</td><td>Single Buffer Gate Tri-State, Low-Voltage CMOS</td><td></td></tr><!--TABLEROW-->
+    </table>
+    </body>
+</html>
+    

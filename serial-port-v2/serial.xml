@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <export version="D">
   <design>
-    <source>/Users/kevin/Desktop/serial-port/serial.sch</source>
-    <date>Saturday, February 10, 2018 'AMt' 10:04:29 AM</date>
+    <source>/Users/kevin/github/pyservos/serial-port-v2/serial.sch</source>
+    <date>Monday, March 05, 2018 'PMt' 10:16:44 PM</date>
     <tool>Eeschema 4.0.7</tool>
     <sheet number="1" name="/" tstamps="/">
       <title_block>
@@ -19,26 +19,12 @@
     </sheet>
   </design>
   <components>
-    <comp ref="U3">
-      <value>74LS126</value>
-      <footprint>Housings_SOIC:SOIC-14_3.9x8.7mm_Pitch1.27mm</footprint>
-      <libsource lib="74xx" part="74LS126"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamp>5A7F13E9</tstamp>
-    </comp>
     <comp ref="J2">
-      <value>Serial 5V</value>
-      <footprint>Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm</footprint>
-      <libsource lib="conn" part="Conn_01x04"/>
+      <value>Serial</value>
+      <footprint>Pin_Headers:Pin_Header_Straight_1x05_Pitch2.54mm</footprint>
+      <libsource lib="conn" part="Conn_01x05"/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>5A7F1515</tstamp>
-    </comp>
-    <comp ref="R3">
-      <value>10k</value>
-      <footprint>Resistors_SMD:R_1206_HandSoldering</footprint>
-      <libsource lib="device" part="R"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamp>5A7F169D</tstamp>
     </comp>
     <comp ref="U2">
       <value>LM317</value>
@@ -47,14 +33,14 @@
       <sheetpath names="/" tstamps="/"/>
       <tstamp>5A7F16FB</tstamp>
     </comp>
-    <comp ref="R1">
+    <comp ref="R2">
       <value>330</value>
       <footprint>Resistors_SMD:R_1206_HandSoldering</footprint>
       <libsource lib="device" part="R"/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>5A7F1770</tstamp>
     </comp>
-    <comp ref="R2">
+    <comp ref="R3">
       <value>1.8k</value>
       <footprint>Resistors_SMD:R_1206_HandSoldering</footprint>
       <libsource lib="device" part="R"/>
@@ -82,13 +68,6 @@
       <sheetpath names="/" tstamps="/"/>
       <tstamp>5A7F1ABA</tstamp>
     </comp>
-    <comp ref="U1">
-      <value>L78L05</value>
-      <footprint>TO_SOT_Packages_THT:TO-92_Inline_Narrow_Oval</footprint>
-      <libsource lib="regul" part="L78L05_TO92"/>
-      <sheetpath names="/" tstamps="/"/>
-      <tstamp>5A7F27F6</tstamp>
-    </comp>
     <comp ref="C3">
       <value>.1</value>
       <footprint>Capacitors_SMD:C_1206_HandSoldering</footprint>
@@ -103,36 +82,225 @@
       <sheetpath names="/" tstamps="/"/>
       <tstamp>5A7F2B39</tstamp>
     </comp>
-    <comp ref="J3">
-      <value>Servo</value>
-      <footprint>Pin_Headers:Pin_Header_Straight_1x03_Pitch2.54mm</footprint>
+    <comp ref="J4">
+      <value>AX-12A</value>
+      <footprint>Connectors_Molex:Molex_SPOX-5267_22-03-5035_03x2.54mm_Straight</footprint>
       <libsource lib="conn" part="Conn_01x03"/>
       <sheetpath names="/" tstamps="/"/>
       <tstamp>5A7F2FF1</tstamp>
     </comp>
+    <comp ref="J3">
+      <value>XL-320</value>
+      <footprint>Connectors_Molex:Molex_MicroLatch-53253-0370_03x2.00mm_Straight</footprint>
+      <libsource lib="conn" part="Conn_01x03"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A863A11</tstamp>
+    </comp>
+    <comp ref="U1">
+      <value>AP1117-50</value>
+      <footprint>TO_SOT_Packages_SMD:SOT-223-3Lead_TabPin2</footprint>
+      <libsource lib="regul" part="AP1117-50"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A864FB2</tstamp>
+    </comp>
+    <comp ref="R1">
+      <value>330</value>
+      <footprint>Resistors_SMD:R_1206_HandSoldering</footprint>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A8A8EB0</tstamp>
+    </comp>
+    <comp ref="D1">
+      <value>PWR</value>
+      <footprint>LEDs:LED_1206_HandSoldering</footprint>
+      <libsource lib="device" part="LED"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A8A8F0B</tstamp>
+    </comp>
+    <comp ref="U4">
+      <value>74LVC1G126</value>
+      <footprint>TO_SOT_Packages_SMD:SOT-23-5_HandSoldering</footprint>
+      <libsource lib="Logic_74xgxx" part="74LVC1G126"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A9DF690</tstamp>
+    </comp>
+    <comp ref="U5">
+      <value>74LVC1G125</value>
+      <footprint>TO_SOT_Packages_SMD:SOT-23-5_HandSoldering</footprint>
+      <libsource lib="Logic_74xgxx" part="74LVC1G125"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A9DF753</tstamp>
+    </comp>
+    <comp ref="D2">
+      <value>TX</value>
+      <footprint>LEDs:LED_1206_HandSoldering</footprint>
+      <libsource lib="device" part="LED"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A9DFE5C</tstamp>
+    </comp>
+    <comp ref="R6">
+      <value>330</value>
+      <footprint>Resistors_SMD:R_1206_HandSoldering</footprint>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A9DFF42</tstamp>
+    </comp>
+    <comp ref="D3">
+      <value>RX</value>
+      <footprint>LEDs:LED_1206_HandSoldering</footprint>
+      <libsource lib="device" part="LED"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A9E0023</tstamp>
+    </comp>
+    <comp ref="R7">
+      <value>330</value>
+      <footprint>Resistors_SMD:R_1206_HandSoldering</footprint>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A9E00D0</tstamp>
+    </comp>
+    <comp ref="R5">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_1206_HandSoldering</footprint>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A9E149D</tstamp>
+    </comp>
+    <comp ref="R4">
+      <value>10k</value>
+      <footprint>Resistors_SMD:R_1206_HandSoldering</footprint>
+      <libsource lib="device" part="R"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A9E14A9</tstamp>
+    </comp>
+    <comp ref="J6">
+      <value>AX-12A</value>
+      <footprint>Connectors_Molex:Molex_SPOX-5267_22-03-5035_03x2.54mm_Straight</footprint>
+      <libsource lib="conn" part="Conn_01x03"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A9E35AB</tstamp>
+    </comp>
+    <comp ref="J5">
+      <value>XL-320</value>
+      <footprint>Connectors_Molex:Molex_MicroLatch-53253-0370_03x2.00mm_Straight</footprint>
+      <libsource lib="conn" part="Conn_01x03"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A9E36A7</tstamp>
+    </comp>
+    <comp ref="Q1">
+      <value>BSS138</value>
+      <footprint>TO_SOT_Packages_SMD:SOT-23_Handsoldering</footprint>
+      <libsource lib="transistors" part="BSS138"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamp>5A9E5356</tstamp>
+    </comp>
   </components>
   <libparts>
-    <libpart lib="74xx" part="74LS126">
-      <description>Quad buffer 3 State out</description>
+    <libpart lib="Logic_74xgxx" part="74LVC1G125">
+      <aliases>
+        <alias>74AHC1G125</alias>
+        <alias>74AHCT1G125</alias>
+        <alias>74AUC1G125</alias>
+        <alias>74AUP1G125</alias>
+      </aliases>
+      <description>Single Buffer Gate Tri-State, Low-Voltage CMOS</description>
+      <docs>http://www.ti.com/lit/sg/scyt129e/scyt129e.pdf</docs>
+      <footprints>
+        <fp>SOT*</fp>
+        <fp>SG-*</fp>
+      </footprints>
       <fields>
         <field name="Reference">U</field>
-        <field name="Value">74LS126</field>
+        <field name="Value">74LVC1G125</field>
       </fields>
       <pins>
-        <pin num="1" name="E" type="input"/>
+        <pin num="1" name="~" type="input"/>
         <pin num="2" name="~" type="input"/>
-        <pin num="3" name="~" type="3state"/>
-        <pin num="4" name="E" type="input"/>
-        <pin num="5" name="D" type="input"/>
-        <pin num="6" name="O" type="3state"/>
-        <pin num="7" name="GND" type="power_in"/>
-        <pin num="8" name="~" type="3state"/>
-        <pin num="9" name="D" type="input"/>
-        <pin num="10" name="E" type="input"/>
-        <pin num="11" name="~" type="3state"/>
-        <pin num="12" name="~" type="input"/>
-        <pin num="13" name="E" type="input"/>
-        <pin num="14" name="VCC" type="power_in"/>
+        <pin num="3" name="GND" type="power_in"/>
+        <pin num="4" name="~" type="3state"/>
+        <pin num="5" name="VCC" type="power_in"/>
+      </pins>
+    </libpart>
+    <libpart lib="Logic_74xgxx" part="74LVC1G126">
+      <aliases>
+        <alias>74AHC1G126</alias>
+        <alias>74AHCT1G126</alias>
+        <alias>74AUC1G126</alias>
+        <alias>74AUP1G126</alias>
+      </aliases>
+      <description>Single Buffer Gate Tri-State, Low-Voltage CMOS</description>
+      <docs>http://www.ti.com/lit/sg/scyt129e/scyt129e.pdf</docs>
+      <footprints>
+        <fp>SOT*</fp>
+        <fp>SG-*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">74LVC1G126</field>
+      </fields>
+      <pins>
+        <pin num="1" name="~" type="input"/>
+        <pin num="2" name="~" type="input"/>
+        <pin num="3" name="GND" type="power_in"/>
+        <pin num="4" name="~" type="3state"/>
+        <pin num="5" name="VCC" type="power_in"/>
+      </pins>
+    </libpart>
+    <libpart lib="regul" part="AP1117-15">
+      <aliases>
+        <alias>AP1117-18</alias>
+        <alias>AP1117-25</alias>
+        <alias>AP1117-33</alias>
+        <alias>AP1117-50</alias>
+        <alias>LD1117S33TR_SOT223</alias>
+        <alias>LD1117S12TR_SOT223</alias>
+        <alias>LD1117S18TR_SOT223</alias>
+        <alias>LD1117S25TR_SOT223</alias>
+        <alias>LD1117S50TR_SOT223</alias>
+        <alias>NCP1117-12_SOT223</alias>
+        <alias>NCP1117-1.5_SOT223</alias>
+        <alias>NCP1117-1.8_SOT223</alias>
+        <alias>NCP1117-2.0_SOT223</alias>
+        <alias>NCP1117-2.5_SOT223</alias>
+        <alias>NCP1117-2.85_SOT223</alias>
+        <alias>NCP1117-3.3_SOT223</alias>
+        <alias>NCP1117-5.0_SOT223</alias>
+      </aliases>
+      <description>1A Low Dropout regulator, positive, 1.5V fixed output, SOT-223</description>
+      <docs>http://www.diodes.com/datasheets/AP1117.pdf</docs>
+      <footprints>
+        <fp>SOT?223*TabPin2*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">AP1117-15</field>
+        <field name="Footprint">TO_SOT_Packages_SMD:SOT-223-3Lead_TabPin2</field>
+      </fields>
+      <pins>
+        <pin num="1" name="GND" type="power_in"/>
+        <pin num="2" name="VO" type="passive"/>
+        <pin num="3" name="VI" type="power_in"/>
+      </pins>
+    </libpart>
+    <libpart lib="transistors" part="BSS138">
+      <aliases>
+        <alias>2N7002</alias>
+        <alias>MMBF170</alias>
+      </aliases>
+      <description>50V Vds, 0.22 A Id, N-channel MOSFET, SOT-23</description>
+      <docs>https://www.fairchildsemi.com/datasheets/BS/BSS138.pdf</docs>
+      <footprints>
+        <fp>SOT?23*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">Q</field>
+        <field name="Value">BSS138</field>
+        <field name="Footprint">TO_SOT_Packages_SMD:SOT-23</field>
+      </fields>
+      <pins>
+        <pin num="1" name="G" type="input"/>
+        <pin num="2" name="S" type="passive"/>
+        <pin num="3" name="D" type="passive"/>
       </pins>
     </libpart>
     <libpart lib="conn" part="Barrel_Jack">
@@ -200,8 +368,8 @@
         <pin num="3" name="Pin_3" type="passive"/>
       </pins>
     </libpart>
-    <libpart lib="conn" part="Conn_01x04">
-      <description>Generic connector, single row, 01x04</description>
+    <libpart lib="conn" part="Conn_01x05">
+      <description>Generic connector, single row, 01x05</description>
       <docs>~</docs>
       <footprints>
         <fp>Connector*:*_??x*mm*</fp>
@@ -213,13 +381,28 @@
       </footprints>
       <fields>
         <field name="Reference">J</field>
-        <field name="Value">Conn_01x04</field>
+        <field name="Value">Conn_01x05</field>
       </fields>
       <pins>
         <pin num="1" name="Pin_1" type="passive"/>
         <pin num="2" name="Pin_2" type="passive"/>
         <pin num="3" name="Pin_3" type="passive"/>
         <pin num="4" name="Pin_4" type="passive"/>
+        <pin num="5" name="Pin_5" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="device" part="LED">
+      <description>LED generic</description>
+      <footprints>
+        <fp>LED*</fp>
+      </footprints>
+      <fields>
+        <field name="Reference">D</field>
+        <field name="Value">LED</field>
+      </fields>
+      <pins>
+        <pin num="1" name="K" type="passive"/>
+        <pin num="2" name="A" type="passive"/>
       </pins>
     </libpart>
     <libpart lib="regul" part="LM317_3PinPackage">
@@ -245,50 +428,6 @@
         <pin num="3" name="VI" type="power_in"/>
       </pins>
     </libpart>
-    <libpart lib="regul" part="MC78L05_TO92">
-      <aliases>
-        <alias>LM78L05_TO92</alias>
-        <alias>MC78L06_TO92</alias>
-        <alias>MC78L08_TO92</alias>
-        <alias>MC78L12_TO92</alias>
-        <alias>LM78L12_TO92</alias>
-        <alias>MC78L15_TO92</alias>
-        <alias>MC78L18_TO92</alias>
-        <alias>MC78L24_TO92</alias>
-        <alias>LM2931AZ-5.0_TO92</alias>
-        <alias>LM2936-3.0_TO92</alias>
-        <alias>LM2936-3.3_TO92</alias>
-        <alias>LM2936-5.0_TO92</alias>
-        <alias>LP2950-3.0_TO92</alias>
-        <alias>LP2950-3.3_TO92</alias>
-        <alias>LP2950-5.0_TO92</alias>
-        <alias>L78L33_TO92</alias>
-        <alias>L78L05_TO92</alias>
-        <alias>L78L06_TO92</alias>
-        <alias>L78L08_TO92</alias>
-        <alias>L78L09_TO92</alias>
-        <alias>L78L10_TO92</alias>
-        <alias>L78L12_TO92</alias>
-        <alias>L78L15_TO92</alias>
-        <alias>L78L18_TO92</alias>
-        <alias>L78L24_TO92</alias>
-      </aliases>
-      <description>Positive 100mA 30V Linear Regulator, Fixed Output 5V, TO-92</description>
-      <docs>http://www.fairchildsemi.com/ds/LM/LM78L05A.pdf</docs>
-      <footprints>
-        <fp>TO?92*</fp>
-      </footprints>
-      <fields>
-        <field name="Reference">U</field>
-        <field name="Value">MC78L05_TO92</field>
-        <field name="Footprint">TO_SOT_Packages_THT:TO-92_Inline_Narrow_Oval</field>
-      </fields>
-      <pins>
-        <pin num="1" name="VO" type="power_out"/>
-        <pin num="2" name="GND" type="power_in"/>
-        <pin num="3" name="VI" type="power_in"/>
-      </pins>
-    </libpart>
     <libpart lib="device" part="R">
       <description>Resistor</description>
       <footprints>
@@ -306,91 +445,117 @@
     </libpart>
   </libparts>
   <libraries>
-    <library logical="conn">
-      <uri>/Library/Application Support/kicad/library/conn.lib</uri>
-    </library>
-    <library logical="74xx">
-      <uri>/Library/Application Support/kicad/library/74xx.lib</uri>
-    </library>
-    <library logical="device">
-      <uri>/Library/Application Support/kicad/library/device.lib</uri>
+    <library logical="Logic_74xgxx">
+      <uri>/Users/kevin/github/pyservos/serial-port-v2/Logic_74xgxx/Logic_74xgxx.lib</uri>
     </library>
     <library logical="regul">
       <uri>/Library/Application Support/kicad/library/regul.lib</uri>
     </library>
+    <library logical="device">
+      <uri>/Library/Application Support/kicad/library/device.lib</uri>
+    </library>
+    <library logical="transistors">
+      <uri>/Library/Application Support/kicad/library/transistors.lib</uri>
+    </library>
+    <library logical="conn">
+      <uri>/Library/Application Support/kicad/library/conn.lib</uri>
+    </library>
   </libraries>
   <nets>
-    <net code="1" name="Net-(U3-Pad5)">
-      <node ref="U3" pin="5"/>
-    </net>
-    <net code="2" name="Net-(U3-Pad4)">
-      <node ref="U3" pin="4"/>
-    </net>
-    <net code="3" name="Net-(U3-Pad6)">
-      <node ref="U3" pin="6"/>
-    </net>
-    <net code="4" name="DTR">
-      <node ref="J2" pin="2"/>
-      <node ref="U3" pin="10"/>
-      <node ref="U3" pin="1"/>
-    </net>
-    <net code="5" name="GND">
-      <node ref="R2" pin="2"/>
+    <net code="1" name="GND">
+      <node ref="J1" pin="2"/>
+      <node ref="R3" pin="2"/>
       <node ref="J2" pin="1"/>
-      <node ref="U3" pin="9"/>
-      <node ref="U3" pin="7"/>
+      <node ref="U1" pin="1"/>
+      <node ref="J3" pin="1"/>
+      <node ref="J4" pin="3"/>
+      <node ref="C1" pin="2"/>
+      <node ref="C3" pin="2"/>
+      <node ref="J5" pin="1"/>
+      <node ref="J6" pin="3"/>
+      <node ref="R1" pin="2"/>
       <node ref="C4" pin="2"/>
       <node ref="C2" pin="2"/>
       <node ref="J1" pin="3"/>
-      <node ref="J1" pin="2"/>
-      <node ref="C3" pin="2"/>
-      <node ref="C1" pin="2"/>
-      <node ref="U1" pin="2"/>
-      <node ref="J3" pin="3"/>
+      <node ref="U5" pin="3"/>
+      <node ref="U4" pin="3"/>
+      <node ref="R7" pin="2"/>
     </net>
-    <net code="6" name="TXO">
-      <node ref="U3" pin="12"/>
+    <net code="2" name="DTR">
+      <node ref="U5" pin="1"/>
+      <node ref="J2" pin="5"/>
+      <node ref="U4" pin="1"/>
+    </net>
+    <net code="3" name="TXO">
       <node ref="J2" pin="3"/>
+      <node ref="R6" pin="1"/>
+      <node ref="U5" pin="2"/>
     </net>
-    <net code="7" name="+5V">
-      <node ref="C3" pin="1"/>
-      <node ref="R3" pin="1"/>
-      <node ref="U1" pin="1"/>
+    <net code="4" name="Net-(D2-Pad1)">
+      <node ref="D2" pin="1"/>
+      <node ref="R6" pin="2"/>
     </net>
-    <net code="8" name="Net-(R3-Pad2)">
-      <node ref="U3" pin="8"/>
-      <node ref="U3" pin="13"/>
-      <node ref="R3" pin="2"/>
-    </net>
-    <net code="9" name="RXI">
-      <node ref="U3" pin="3"/>
+    <net code="5" name="RXI">
+      <node ref="D3" pin="2"/>
       <node ref="J2" pin="4"/>
+      <node ref="U4" pin="4"/>
     </net>
-    <net code="10" name="DATA">
-      <node ref="J3" pin="1"/>
-      <node ref="U3" pin="2"/>
-      <node ref="U3" pin="11"/>
+    <net code="6" name="Net-(D3-Pad1)">
+      <node ref="R7" pin="1"/>
+      <node ref="D3" pin="1"/>
     </net>
-    <net code="11" name="VCC">
-      <node ref="U3" pin="14"/>
+    <net code="7" name="+3V3">
+      <node ref="U5" pin="5"/>
+      <node ref="D2" pin="2"/>
+      <node ref="J2" pin="2"/>
+      <node ref="U4" pin="5"/>
+      <node ref="R5" pin="1"/>
     </net>
-    <net code="12" name="Net-(R1-Pad2)">
-      <node ref="R2" pin="1"/>
-      <node ref="R1" pin="2"/>
-      <node ref="U2" pin="1"/>
+    <net code="8" name="+12V">
+      <node ref="U1" pin="3"/>
+      <node ref="J1" pin="1"/>
+      <node ref="C2" pin="1"/>
+      <node ref="U2" pin="3"/>
+      <node ref="C1" pin="1"/>
+      <node ref="J4" pin="2"/>
+      <node ref="J6" pin="2"/>
+    </net>
+    <net code="9" name="Net-(D1-Pad1)">
+      <node ref="D1" pin="1"/>
+      <node ref="R1" pin="1"/>
+    </net>
+    <net code="10" name="Net-(Q1-Pad1)">
+      <node ref="U4" pin="2"/>
+      <node ref="U5" pin="4"/>
+      <node ref="R5" pin="2"/>
+      <node ref="Q1" pin="2"/>
+      <node ref="Q1" pin="1"/>
+    </net>
+    <net code="11" name="+5V">
+      <node ref="R4" pin="1"/>
+      <node ref="C3" pin="1"/>
+      <node ref="D1" pin="2"/>
+      <node ref="U1" pin="2"/>
+    </net>
+    <net code="12" name="DATA">
+      <node ref="J5" pin="3"/>
+      <node ref="R4" pin="2"/>
+      <node ref="Q1" pin="3"/>
+      <node ref="J6" pin="1"/>
+      <node ref="J3" pin="3"/>
+      <node ref="J4" pin="1"/>
     </net>
     <net code="13" name="+8V">
-      <node ref="R1" pin="1"/>
+      <node ref="R2" pin="1"/>
+      <node ref="J5" pin="2"/>
       <node ref="C4" pin="1"/>
       <node ref="U2" pin="2"/>
       <node ref="J3" pin="2"/>
     </net>
-    <net code="14" name="Net-(C1-Pad1)">
-      <node ref="C2" pin="1"/>
-      <node ref="J1" pin="1"/>
-      <node ref="U1" pin="3"/>
-      <node ref="C1" pin="1"/>
-      <node ref="U2" pin="3"/>
+    <net code="14" name="Net-(R2-Pad2)">
+      <node ref="U2" pin="1"/>
+      <node ref="R2" pin="2"/>
+      <node ref="R3" pin="1"/>
     </net>
   </nets>
 </export>
