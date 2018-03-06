@@ -7,8 +7,5 @@ old
 *.egg-info
 dist
 build
-*.zip
-c/
-nogit
 __pychache__
 *.json
