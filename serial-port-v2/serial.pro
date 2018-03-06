@@ -1,4 +1,4 @@
-update=Monday, March 05, 2018 'PMt' 10:23:31 PM
+update=3/6/2018 9:01:01 AM
 version=1
 last_client=kicad
 [pcbnew]
