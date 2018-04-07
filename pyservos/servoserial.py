@@ -31,10 +31,13 @@ class ServoSerial(object):
 	RPi3 sucks ... they screwed up the serial port, the RTS pin doesn't work so I
 	just toggle pin 17 and treat it as an output pin.
 	"""
-# 	DD_WRITE = False      # data direction set to write .. RTS is backwards
-# 	DD_READ = True        # data direction set to read .. RTS is backwards
-	DD_WRITE = True      # data direction set to write
-	DD_READ = False        # data direction set to read
+	# my board
+	DD_WRITE = False      # data direction set to write .. RTS is backwards
+	DD_READ = True        # data direction set to read .. RTS is backwards
+	# old way, did I screw soemthing up?
+	# DD_WRITE = True      # data direction set to write
+	# DD_READ = False        # data direction set to read
+	
 	# SLEEP_TIME = 0.0    # sleep time between read/write
 	# SLEEP_TIME = 0.005    # sleep time between read/write
 	# SLEEP_TIME = 0.0005    # sleep time between read/write

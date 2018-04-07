@@ -108,8 +108,8 @@ class Packet(object):
 		# 	raise Exception('makeServoMovePacket(), angle [rads] out of bounds: {}'.format(angle))
 		# val = int(angle/300*1023)
 		val = angle2int(angle, degrees)
-
 		pkt = self.makeWritePacket(ID, self.base.GOAL_POSITION, val)
+
 		return pkt
 
 	def makeSyncMovePacket(self, info, degrees=True):
