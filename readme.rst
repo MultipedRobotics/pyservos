@@ -1,7 +1,7 @@
 .. image:: https://raw.githubusercontent.com/MomsFriendlyRobotCompany/pyservos/master/pics/complex.gif
     :align: center
     :width: 300px
-    :target: https://github.com/walchko/pyservos
+    :target: https://github.com/MomsFriendlyRobotCompany/pyservos
     :alt: animated gif
 
 pyServos
