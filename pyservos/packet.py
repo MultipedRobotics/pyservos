@@ -139,14 +139,13 @@ class Packet(object):
 	def makeSyncWritePacket(self, reg, info):
 		"""
 		Write sync angle information to servos.
+		Status Packet will not be returned because Broadcast ID(0xFE) is used
 
 		info = [[ID, data1, ...], [ID, data1, ...], ...]
 		"""
 		data = []
 		data.append(reg)  # addr
-		# length = (len(info[0])+1)*(len(info)+4)
-		# data.append(length)  # data length
-		data.append(len(info[0])-1)
+		data.append(len(info[0])-1)  # data length not counting ID
 		for cmd in info:
 			data += cmd
 

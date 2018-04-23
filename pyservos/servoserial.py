@@ -37,7 +37,7 @@ class ServoSerial(object):
 	# old way, did I screw soemthing up?
 	# DD_WRITE = True      # data direction set to write
 	# DD_READ = False        # data direction set to read
-	
+
 	# SLEEP_TIME = 0.0    # sleep time between read/write
 	# SLEEP_TIME = 0.005    # sleep time between read/write
 	# SLEEP_TIME = 0.0005    # sleep time between read/write
@@ -146,7 +146,7 @@ class ServoSerial(object):
 	# 	"""
 	# 	ret = []
 	# 	self.setRTS(self.DD_READ)
-    #
+	#
 	# 	header = [0xFF, 0xFD, 0x00]
 	# 	ptr = 0
 	# 	while True:
@@ -209,9 +209,15 @@ class ServoSerial(object):
 		"""
 		This is a simple serial write command. It toggles the RTS pin and formats
 		all of the data into bytes before it writes.
+
+		in:
+			pkt - array of bytes to send: [2,3,4]
+		return:
+			number of bytes written to serial port
 		"""
 		self.setRTS(self.DD_WRITE)
-		self.flushInput()
+		# self.flushInput()
+		self.serial.flushInput()
 		# prep data array for transmition
 		pkt = bytearray(pkt)
 		pkt = bytes(pkt)
@@ -228,24 +234,40 @@ class ServoSerial(object):
 
 		in:
 			pkt - command packet to send to servo
-			cnt - how many retries should this do? default = 5
-		out:
-			array of packets
+			retry - how many retries should this do? default = 5
+		return:
+			None or response packet
 		"""
-		for cnt in range(retry):
-			self.serial.flushInput()
+		# for cnt in range(retry):
+		# 	# self.serial.flushInput()
+		# 	self.write(pkt)  # send packet to servo
+		# 	ans = self.read()  # get return status packet
+		#
+		# 	if ans:
+		# 		# check for error and resend
+		# 		return ans
+		#
+		# 	else:
+		# 		# print('>> retry {} <<'.format(cnt))
+		# 		time.sleep(sleep_time)
+		#
+		# return None
+		ans = None
+		while retry:
+			print('wrote', retry)
 			self.write(pkt)  # send packet to servo
+			time.sleep(0.001)  # need to wait some time between read/write
 			ans = self.read()  # get return status packet
 
 			if ans:
-				# check for error and resend
-				return ans
+				break
 
-			else:
-				# print('>> retry {} <<'.format(cnt))
-				time.sleep(sleep_time)
+			time.sleep(sleep_time)
+			retry -= 1
 
-		return None
+		print('ans', ans)
+
+		return ans
 
 	def close(self):
 		"""
