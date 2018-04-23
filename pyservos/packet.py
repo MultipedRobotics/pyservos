@@ -178,6 +178,20 @@ class Packet(object):
 		pkt = self.makeWritePacket(ID, self.base.LED, [value])
 		return pkt
 
+	def makeSpeedPacket(self, speed):
+		"""
+		Set max speed for all servos
+		speed - [0-1023] in units of 0.111 rpm. If speed = 0, then max motor
+		        speed is used. You cannot exceed max servo speed.
+		"""
+		speed = speed if (speed <= self.base.MAX_RPM) else self.base.MAX_RPM
+		pkt = self.makeWritePacket(
+			self.base.BROADCAST_ADDR,
+			self.base.GOAL_VELOCITY,
+			le(speed)
+		)
+		return pkt
+
 	def decodePacket(self, pkts):
 		return self.base.find_packets(pkts)
 

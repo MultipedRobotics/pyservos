@@ -44,8 +44,9 @@ class ServoSerial(object):
 	SLEEP_TIME = 0.00005    # sleep time between read/write
 	# fake = False
 	loop_addr = 'loop://'
+	pi_pin = None
 
-	def __init__(self, port, baud_rate=1000000):
+	def __init__(self, port, baud_rate=1000000, pi_pin=None):
 		"""
 		Constructor: sets up the serial port
 
@@ -70,6 +71,9 @@ class ServoSerial(object):
 		# the default time delay on the servo is 0.5 msec before it returns a status pkt
 		# self.serial.timeout = 0.0001  # time out waiting for blocking read()
 		self.serial.timeout = 0.005
+		if pi_pin:
+			self.pi_pin = pi_pin
+			# import GPIO
 
 	def __del__(self):
 		"""
@@ -84,9 +88,11 @@ class ServoSerial(object):
 		time.sleep(self.SLEEP_TIME)
 		# only need one of thse, but the lazy option to if statements to determin
 		# if using DTR or RTS as the direction pin
-		self.serial.dtr = level
-		self.serial.rts = level
-		# time.sleep(self.SLEEP_TIME)
+		if self.pi_pin:
+			pass
+		else:
+			self.serial.dtr = level
+			self.serial.rts = level
 
 	def open(self):
 		if self.serial.is_open:
@@ -134,76 +140,9 @@ class ServoSerial(object):
 			# ret = Packet.findPkt(data)
 			# print('ret', ret)
 		else:
-			data = []
+			# data = []
+			data = None
 		return data
-
-	# def read2(self, how_much=128):  # FIXME: 128 might be too much ... what is largest?
-	# 	"""
-	# 	This toggles the RTS pin and reads in data. It also converts the buffer
-	# 	back into a list of bytes and searches through the list to find valid
-	# 	packets of info. If there is more than one packet, this returns an
-	# 	array of valid packets.
-	# 	"""
-	# 	ret = []
-	# 	self.setRTS(self.DD_READ)
-	#
-	# 	header = [0xFF, 0xFD, 0x00]
-	# 	ptr = 0
-	# 	while True:
-	# 		b = self.serial.read(1)
-	# 		if not b:
-	# 			return None
-	# 		b = ord(b)
-	# 		print('b', b)
-	# 		if b == header[ptr]:
-	# 			ptr += 1
-	# 			ret.append(b)
-	# 			if ptr == 3:  # found header
-	# 				print('found header')
-	# 				d = self.serial.read(1)  # ID
-	# 				ret.append(ord(d))
-	# 				l, h = self.serial.read(2)  # length
-	# 				l = ord(l)
-	# 				h = ord(h)
-	# 				ret.append(l)
-	# 				ret.append(h)
-	# 				length = (h << 8) + l
-	# 				print('length', length)
-	# 				how_many = length
-	# 				while how_many > 0:
-	# 					print('how_many', how_many)
-	# 					d = self.serial.read(how_many)
-	# 					d = self.decode(d)
-	# 					print('read:', len(d))
-	# 					how_many -= len(d)
-	# 					for i in d:
-	# 						ret.append(i)
-	# 				print('bye')
-	# 				return [ret]
-	# 		else:
-	# 			ret = []
-	# 			ptr = 0
-	# 	return ret
-
-	# def readPkts(self, how_much=128):  # FIXME: 128 might be too much ... what is largest?
-	# 	"""
-	# 	This toggles the RTS pin and reads in data. It also converts the buffer
-	# 	back into a list of bytes and searches through the list to find valid
-	# 	packets of info. If there is more than one packet, this returns an
-	# 	array of valid packets.
-	#
-	# 	going to remove this one
-	# 	"""
-	# 	ret = []
-	# 	self.setRTS(self.DD_READ)
-	# 	data = self.serial.read(how_much)
-	# 	# print('readPkts data', data)
-	# 	if data:
-	# 		data = self.decode(data)
-	# 		# print('decode', data)
-	# 		ret = Packet.findPkt(data)
-	# 		# print('ret', ret)
-	# 	return ret
 
 	def write(self, pkt):
 		"""
@@ -216,7 +155,6 @@ class ServoSerial(object):
 			number of bytes written to serial port
 		"""
 		self.setRTS(self.DD_WRITE)
-		# self.flushInput()
 		self.serial.flushInput()
 		# prep data array for transmition
 		pkt = bytearray(pkt)
@@ -254,7 +192,7 @@ class ServoSerial(object):
 		# return None
 		ans = None
 		while retry:
-			print('wrote', retry)
+			# print('wrote', retry)
 			self.write(pkt)  # send packet to servo
 			time.sleep(0.001)  # need to wait some time between read/write
 			ans = self.read()  # get return status packet
@@ -265,8 +203,6 @@ class ServoSerial(object):
 			time.sleep(sleep_time)
 			retry -= 1
 
-		print('ans', ans)
-
 		return ans
 
 	def close(self):
@@ -276,8 +212,8 @@ class ServoSerial(object):
 		if self.serial.is_open:
 			self.serial.close()
 
-	def flushInput(self):
-		"""
-		Flush the input.
-		"""
-		self.serial.flushInput()
+	# def flushInput(self):
+	# 	"""
+	# 	Flush the input.
+	# 	"""
+	# 	self.serial.flushInput()
