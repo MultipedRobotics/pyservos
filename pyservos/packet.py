@@ -139,14 +139,13 @@ class Packet(object):
 	def makeSyncWritePacket(self, reg, info):
 		"""
 		Write sync angle information to servos.
+		Status Packet will not be returned because Broadcast ID(0xFE) is used
 
 		info = [[ID, data1, ...], [ID, data1, ...], ...]
 		"""
 		data = []
 		data.append(reg)  # addr
-		# length = (len(info[0])+1)*(len(info)+4)
-		# data.append(length)  # data length
-		data.append(len(info[0])-1)
+		data.append(len(info[0])-1)  # data length not counting ID
 		for cmd in info:
 			data += cmd
 
@@ -177,6 +176,20 @@ class Packet(object):
 		# 	value = [0, value]
 
 		pkt = self.makeWritePacket(ID, self.base.LED, [value])
+		return pkt
+
+	def makeSpeedPacket(self, speed):
+		"""
+		Set max speed for all servos
+		speed - [0-1023] in units of 0.111 rpm. If speed = 0, then max motor
+		        speed is used. You cannot exceed max servo speed.
+		"""
+		speed = speed if (speed <= self.base.MAX_RPM) else self.base.MAX_RPM
+		pkt = self.makeWritePacket(
+			self.base.BROADCAST_ADDR,
+			self.base.GOAL_VELOCITY,
+			le(speed)
+		)
 		return pkt
 
 	def decodePacket(self, pkts):
