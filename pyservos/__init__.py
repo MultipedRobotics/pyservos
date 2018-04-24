@@ -5,6 +5,13 @@ from .xl320 import XL320
 from .packet import Packet
 
 
+servoTypes = {
+    1: 'AX-12A',
+    2: 'XL-320',
+    3: 'XL-430'
+}
+
+
 __copyright__ = 'Copyright (c) 2016 Kevin Walchko'
 __license__ = 'MIT'
 __author__ = 'Kevin J. Walchko'

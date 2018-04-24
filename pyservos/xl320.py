@@ -113,6 +113,12 @@ class XL320(object):
 		# print('<<< WARNING: this is not setup yet >>>')
 		pass
 
+	def __str__(self):
+		return 'XL-320'
+
+	def type(self):
+		return 2
+
 	def check_sum(self, data_blk):
 		"""
 		Calculate crc

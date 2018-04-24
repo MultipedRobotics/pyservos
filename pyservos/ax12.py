@@ -72,6 +72,12 @@ class AX12(object):
 	def __init__(self):
 		pass
 
+	def __str__(self):
+		return 'AX-12A'
+
+	def type(self):
+		return 1
+
 	@staticmethod
 	def check_sum(data):
 		"""
