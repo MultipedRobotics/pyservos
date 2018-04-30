@@ -18,6 +18,10 @@ pyServos
 
 
 **Still under development**
+**Starting to add XL-430 servo**
+
+**WARNING:** As I add new servos, might change some of the class names because
+I don't think they make sense now. Maybe: Protocol1 (AX) and Protocol2 (XL)
 
 This is still a work in progress and **only** supports AX-12A and XL-320. The
 library is divided up as follows:
@@ -28,7 +32,7 @@ library is divided up as follows:
 	- **utils** - misc
 	- **XL320** - register/command/error definitions for Dynamixel's XL-320 servo
 	- **AX12** - register/command/error definitions for Dynamixel's AX-12A servo
-
+	- **XL430** - register/command/error definitions for Dynamixel's AX-12A servo
 
 Setup
 --------
@@ -71,6 +75,7 @@ Documentation
 
 - `AX-12A Servo <https://github.com/MomsFriendlyRobotCompany/pyservos/tree/master/docs/ax12>`_
 - `XL-320 Servo <https://github.com/MomsFriendlyRobotCompany/pyservos/tree/master/docs/xl320>`_
+- `XL-430 Servo <https://github.com/MomsFriendlyRobotCompany/pyservos/tree/master/docs/xl430>`_
 
 A simple example to turn the servo and turn the LED on using a USB serial converter:
 
@@ -116,6 +121,7 @@ Change Log
 -------------
 
 ========== ======= =============================
+2018-04-30 1.0.1   API fixes and starting to add 430 support
 2018-02-17 1.0.0   added AX-12 support and renamed the library
 2017-04-01 0.9.0   added python3 support
 2017-03-26 0.8.0   major overhaul and removed the GPIO stuff
