@@ -17,6 +17,7 @@ import platform
 
 sys = platform.system()
 if sys == 'Linux' or sys == 'Linux2':
+	# Not sure the best way to do this, but if on linux/pi, then import these
 	import RPi.GPIO as GPIO
 	GPIO.setmode(GPIO.BCM)
 	print("Linux detected, loading GPIO")
