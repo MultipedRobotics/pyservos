@@ -13,6 +13,13 @@ import serial as PySerial
 import time
 # import os
 # import pty
+import platform
+
+sys = platform.system()
+if sys == 'Linux' or sys == 'Linux2':
+	import RPi.GPIO as GPIO
+	GPIO.setmode(GPIO.BCM)
+	print("Linux detected, loading GPIO")
 
 
 class ServoSerial(object):
@@ -73,13 +80,16 @@ class ServoSerial(object):
 		self.serial.timeout = 0.005
 		if pi_pin:
 			self.pi_pin = pi_pin
-			# import GPIO
+			GPIO.setup(pi_pin, GPIO.OUT)
 
 	def __del__(self):
 		"""
 		Destructor: closes the serial port
 		"""
 		self.close()
+
+		if self.pi_pin:
+			GPIO.cleanup()
 
 	def setRTS(self, level):
 		# if self.fake:
@@ -89,7 +99,7 @@ class ServoSerial(object):
 		# only need one of thse, but the lazy option to if statements to determin
 		# if using DTR or RTS as the direction pin
 		if self.pi_pin:
-			pass
+			GPIO.output(self.pi_pin, not level)
 		else:
 			self.serial.dtr = level
 			self.serial.rts = level
