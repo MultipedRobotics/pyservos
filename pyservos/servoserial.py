@@ -1,5 +1,3 @@
-
-
 ##############################################
 # The MIT License (MIT)
 # Copyright (c) 2016 Kevin Walchko
@@ -17,10 +15,14 @@ import platform
 
 sys = platform.system()
 if sys == 'Linux' or sys == 'Linux2':
-	# Not sure the best way to do this, but if on linux/pi, then import these
-	import RPi.GPIO as GPIO
-	GPIO.setmode(GPIO.BCM)
-	print("Linux detected, loading GPIO")
+	try:
+		# Not sure the best way to do this, but if on linux/pi, then import these
+		import RPi.GPIO as GPIO
+		GPIO.setmode(GPIO.BCM)
+		print("Linux detected, loading GPIO")
+	except ImportError as e:
+		print('You appear to using this on linux, install with: pip install pyservos[GPIO]')
+		raise
 
 
 class ServoSerial(object):
