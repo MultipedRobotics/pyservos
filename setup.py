@@ -41,6 +41,9 @@ setup(
 	keywords=['dynamixel', 'robotis', 'ax12', 'ax-12', 'ax-12a', 'xl320', 'xl-320', 'servo', 'actuator', 'library', 'robotics', 'robot', 'smart', 'spider'],
 	packages=[PACKAGE_NAME],
 	# install_requires=open('requirements.txt').readlines(),
+	extras_require={
+		'GPIO': ['RPi.GPIO']
+	},
 	install_requires=[
 		'pyserial',
 		'build_utils'

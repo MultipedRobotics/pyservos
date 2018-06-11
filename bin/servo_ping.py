@@ -27,7 +27,7 @@ def print_status_pkt(info):
 	print('raw pkt: {}'.format(info['raw']))
 
 
-def ping(port, rate, ID, servoType, retry=3):
+def ping(port, rate, ID, servoType, bcm_pin, retry=3):
 	"""
 	Sends a ping packet to ID's from 0 to maximum and prints out any returned
 	messages.
@@ -36,7 +36,7 @@ def ping(port, rate, ID, servoType, retry=3):
 	"""
 	valid_return = False
 
-	s = ServoSerial(port, rate)
+	s = ServoSerial(port, rate, bcm_pin)
 
 	if ID < 0:
 		print('Pinging ALL servos')
@@ -106,6 +106,7 @@ def handleArgs():
 	parser = argparse.ArgumentParser(description=DESCRIPTION, formatter_class=argparse.RawTextHelpFormatter)
 	parser.add_argument('-r', '--rate', help='servo baud rate', type=int, default=1000000)
 	parser.add_argument('-i', '--id', help='ping servo ID', type=int, default=-1)
+	parser.add_argument('-p', '--pin', help='Raspberry Pi GPIO BCM pin', type=int, default=-1)
 	parser.add_argument('-t', '--type', help='type of servo, 1:AX-12A 2:XL-320 servo 3:XL-430, default: AX-12A', type=int, default=1)
 	parser.add_argument('port', help='serial port name, set to "dummy" for testing', type=str)
 
@@ -128,4 +129,9 @@ if __name__ == '__main__':
 
 	print('\nSearching for {} servos on {}\n'.format(servoStr[args['type']], args['port']))
 
-	ping(port=args['port'], rate=args['rate'], ID=args['id'], servoType=servoType[args['type']])
+	if args['pin'] > 0:
+		pi_pin = args['pin']
+	else:
+		pi_pin = None
+
+	ping(port=args['port'], rate=args['rate'], ID=args['id'], servoType=servoType[args['type']], bcm_pin=pi_pin)
