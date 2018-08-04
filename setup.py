@@ -24,7 +24,7 @@ setup(
 	name=PACKAGE_NAME,
 	version=VERSION,
 	description='A library to control dynamixel AX-12 and XL-320 servos with python',
-	long_description=open('readme.rst').read(),
+	long_description=open('readme.md').read(),
 	url='http://github.com/walchko/{}'.format(PACKAGE_NAME),
 	classifiers=[
 		'Development Status :: 4 - Beta',
