@@ -20,9 +20,49 @@ if sys == 'Linux' or sys == 'Linux2':
 		import RPi.GPIO as GPIO
 		GPIO.setmode(GPIO.BCM)
 		print("Linux detected, loading GPIO")
+
+		class Pi_Pin(object):
+			"""
+			Robotis servos interface uses a pin to determine flow control across the
+			half duplex interface. If using the RPi on-board serial port, you will
+			need to select a pin for the flow control. This uses RPi.GPIO as the
+			library to control that pin.
+			"""
+			def __init__(self, pin):
+				"""pin is the BCM pin number and NOT the Pi pin number"""
+				import RPi.GPIO as GPIO
+				GPIO.setmode(GPIO.BCM)
+				self.pin = pin
+				GPIO.setup(self.pin, GPIO.OUT)
+
+			def __del__(self):
+				GPIO.cleanup()
+
+			def set(self, level):
+				GPIO.output(self.pin, not level)
+
 	except ImportError as e:
 		print('You appear to using this on linux, install with: pip install pyservos[GPIO]')
 		raise
+
+
+class Serial_Pin(object):
+	"""
+	Robotis servos interface uses a pin to determine flow control across the
+	half duplex interface. If using a USB serial port, you can use pyserial
+	and command either DTR or RTS pin as the flow control. This class toggles
+	BOTH DTR and RTS, incase your USB serial only provides access to one of
+	them.
+	"""
+	def __init__(self, serial):
+		self.serial = serial
+
+	def __del__(self):
+		pass
+
+	def set(self, level):
+		self.serial.dtr = level
+		self.serial.rts = level
 
 
 class ServoSerial(object):
@@ -64,15 +104,7 @@ class ServoSerial(object):
 		want to use the RPi seiral port, then you need to use a pin to toggle TX/Rx.
 		Set rst_hw to any valid BCM pin greater than 0.
 		"""
-		# redo port if it is fake
-		# not sure this works on Windows
-		# os.read(master,1000)
 		if port in ['dummy', 'fake', 'test', '/dev/null']:
-			# import pty
-			# master, slave = pty.openpty()
-			# port = os.ttyname(slave)
-			# self.serial = PySerial.Serial(port)
-			# self.fake = True
 			self.serial = PySerial.serial_for_url(self.loop_addr, timeout=0.1)
 		else:
 			self.serial = PySerial.Serial()
@@ -81,6 +113,8 @@ class ServoSerial(object):
 		# the default time delay on the servo is 0.5 msec before it returns a status pkt
 		# self.serial.timeout = 0.0001  # time out waiting for blocking read()
 		self.serial.timeout = 0.005
+
+		# this only gets used on linux with GPIO
 		if pi_pin:
 			self.pi_pin = pi_pin
 			GPIO.setup(pi_pin, GPIO.OUT)
@@ -91,15 +125,13 @@ class ServoSerial(object):
 		"""
 		self.close()
 
+		# this only gets used on linux with GPIO
 		if self.pi_pin:
 			GPIO.cleanup()
 
 	def setRTS(self, level):
-		# if self.fake:
-		# 	return
-
 		time.sleep(self.SLEEP_TIME)
-		# only need one of thse, but the lazy option to if statements to determin
+		# only need one of these, but the lazy option to if statements to determine
 		# if using DTR or RTS as the direction pin
 		if self.pi_pin:
 			GPIO.output(self.pi_pin, not level)
@@ -109,7 +141,6 @@ class ServoSerial(object):
 
 	def open(self):
 		if self.serial.is_open:
-			# raise Exception('SeroSerial::open() ... Oops, port is already open')
 			return
 
 		self.serial.open()
@@ -128,8 +159,6 @@ class ServoSerial(object):
 
 		does serial.to_bypes() do the same thing?
 		"""
-		# print('>>>', buff)
-		# pp = list(map(ord, buff))
 		pp = list(bytearray(buff))
 		if 0 == len(pp) == 1:
 			pp = []
@@ -174,8 +203,6 @@ class ServoSerial(object):
 		pkt = bytes(pkt)
 
 		num = self.serial.write(pkt)
-		# self.serial.flush()
-		# print('wrote {} of len(pkt) = {}'.format(num, len(pkt)))
 		return num
 
 	def sendPkt(self, pkt, retry=5, sleep_time=0.01):
@@ -189,20 +216,7 @@ class ServoSerial(object):
 		return:
 			None or response packet
 		"""
-		# for cnt in range(retry):
-		# 	# self.serial.flushInput()
-		# 	self.write(pkt)  # send packet to servo
-		# 	ans = self.read()  # get return status packet
-		#
-		# 	if ans:
-		# 		# check for error and resend
-		# 		return ans
-		#
-		# 	else:
-		# 		# print('>> retry {} <<'.format(cnt))
-		# 		time.sleep(sleep_time)
-		#
-		# return None
+
 		ans = None
 		while retry:
 			# print('wrote', retry)

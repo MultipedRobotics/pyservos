@@ -27,6 +27,12 @@ The suggested way to install this is via the `pip` command as follows::
 
 	pip install pyservos
 
+If you intend to install on an RPi and use a GPIO pin as the `DTR` pin, then do:
+
+	pip install pyservos[GPIO]
+
+This will also install `RPi.GPIO`  package, but this *only* works on an RPi.
+
 ## Development
 
 To submit git pulls, clone the repository and set it up as follows:
@@ -42,12 +48,12 @@ run the command with the `--help` flag to see how to use it.
 
 | Command              |  Description |
 |----------------------|--------------|
-| `servo_ping.py`    | pings one or all of the servos |
-|`servo_reboot.py`   | reboots one or all servos |
-| `servo_reset.py`   | resets one or all servos to a specified level |
-| `set_angle.py`     | sets the angle of a given servo |
-| `set_baud_rate.py` | change the baud rate of the servos |
-| `set_id.py`        | changes the ID number for a given servo |
+| `servo_ping.py`      | pings one or all of the servos |
+| `servo_reboot.py`    | reboots one or all servos |
+| `servo_reset.py`     | resets one or all servos to a specified level |
+| `set_angle.py`       | sets the angle of a given servo |
+| `set_baud_rate.py`   | change the baud rate of the servos |
+| `set_id.py`          | changes the ID number for a given servo |
 
 # Documentation
 
