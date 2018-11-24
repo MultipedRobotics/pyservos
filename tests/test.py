@@ -21,25 +21,25 @@ def packet_check(a, b):
 		assert aa == bb
 
 
-#####################################################
-# Serial Tests
-#####################################################
-def test_fake_serial():
-	s = ServoSerial('/dev/null')
-	s.open()
-	msg = [71, 72, 73]  # ascii: GHI
-	s.write(msg)
-	ret = s.read()
-	for r, m in zip(ret, msg):
-		print(r, m)
-		assert r == m
-
-	s.write(msg)
-	s.flushInput()  # destroy input, ret should be empty now
-	ret = s.read()
-	assert len(ret) == 0
-
-	s.close()
+# #####################################################
+# # Serial Tests
+# #####################################################
+# def test_fake_serial():
+# 	s = ServoSerial('/dev/null')
+# 	s.open()
+# 	msg = [71, 72, 73]  # ascii: GHI
+# 	s.write(msg)
+# 	ret = s.read()
+# 	for r, m in zip(ret, msg):
+# 		print(r, m)
+# 		assert r == m
+#
+# 	s.write(msg)
+# 	s.flushInput()  # destroy input, ret should be empty now
+# 	ret = s.read()
+# 	assert len(ret) == 0
+#
+# 	s.close()
 
 
 #####################################################
