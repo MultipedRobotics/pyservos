@@ -9,6 +9,7 @@
 from __future__ import division
 from __future__ import print_function
 # from .utils import le, angle2int
+# from pyservos import ServoTypes
 
 
 class AX12(object):
@@ -16,6 +17,7 @@ class AX12(object):
 	This class handles the AX-12A servo using Dynimel's Protocol version 1.0.
 	"""
 	SERVO_ID = 1  # used to tell AX and XL servos appart
+	# SERVO_TYPE = ServoTypes.ax12
 	MAX_RPM = int(59/0.111)
 
 	# --------- INSTRUCTIONS -----
@@ -76,8 +78,8 @@ class AX12(object):
 	def __str__(self):
 		return 'AX-12A'
 
-	def type(self):
-		return 1
+	# def type(self):
+	# 	return self.SERVO_TYPE
 
 	@staticmethod
 	def check_sum(data):

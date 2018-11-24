@@ -6,7 +6,8 @@
 
 from __future__ import division
 from __future__ import print_function
-from .utils import le
+from pyservos.utils import le
+# from pyservos import ServoTypes
 
 
 crc_table = [
@@ -47,6 +48,7 @@ crc_table = [
 
 class XL320(object):
 	SERVO_ID = 2  # used to tell AX and XL servos appart
+	# SERVO_TYPE = ServoTypes.xl320
 
 	# --------- INSTRUCTIONS -----
 	PING      = 0x01
@@ -116,8 +118,8 @@ class XL320(object):
 	def __str__(self):
 		return 'XL-320'
 
-	def type(self):
-		return 2
+	# def type(self):
+	# 	return self.SERVO_TYPE
 
 	def check_sum(self, data_blk):
 		"""
