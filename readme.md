@@ -106,6 +106,7 @@ Here are some example [robots](https://github.com/MomsFriendlyRobotCompany/pyser
 
 # Change Log
 
+| | | |
 |------------|-------|--------------------------------------------|
 | 2018-04-30 | 1.0.1 |  API fixes and starting to add 430 support |
 | 2018-02-17 | 1.0.0 |  added AX-12 support and renamed the library |
