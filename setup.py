@@ -6,16 +6,21 @@
 
 from __future__ import print_function
 from setuptools import setup
-from pyservos import __version__ as VERSION
+# from pyservos import __version__ as VERSION
 from build_utils import BuildCommand
 from build_utils import PublishCommand
 from build_utils import BinaryDistribution
+from build_utils import SetGitTag
+from build_utils import get_pkg_version
 
 
 PACKAGE_NAME = 'pyservos'
+VERSION = get_pkg_version('pyservos/__init__.py')
 BuildCommand.pkg = PACKAGE_NAME
+BuildCommand.py2 = False  # not supporting python2 anymore
 PublishCommand.pkg = PACKAGE_NAME
 PublishCommand.version = VERSION
+SetGitTag.version = VERSION
 
 
 setup(
