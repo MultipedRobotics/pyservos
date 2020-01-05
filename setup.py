@@ -47,7 +47,9 @@ setup(
     },
     install_requires=[
         'pyserial',
-        'build_utils'
+        'build_utils',
+        'linuxinfo'
+        # 'RPi.GPIO'
     ],
     cmdclass={
         'publish': PublishCommand,

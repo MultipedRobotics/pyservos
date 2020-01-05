@@ -98,7 +98,7 @@ pkt = xl.makeWritePacket(ID, reg, params)
 
 ## Robot Examples
 
-Here are some example [robots](https://github.com/MomsFriendlyRobotCompany/pyservos/tree/master/docs/robots>
+Here are some example [robots](https://github.com/MomsFriendlyRobotCompany/pyservos/tree/master/docs/robots)
 
 # ToDo
 

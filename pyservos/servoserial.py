@@ -15,7 +15,9 @@ import platform
 
 sys = platform.system()
 if sys == 'Linux' or sys == 'Linux2':
-    try:
+    from linuxinfo import pi_info
+    rpi = pi_info()
+    if rpi:
         # Not sure the best way to do this, but if on linux/pi, then import these
         import RPi.GPIO as GPIO
         GPIO.setmode(GPIO.BCM)
@@ -40,10 +42,18 @@ if sys == 'Linux' or sys == 'Linux2':
 
             def set(self, level):
                 GPIO.output(self.pin, not level)
+    else:
+        class Pi_Pin(object):
+            def __init__(self, pin):
+                pass
+            def __del__(self):
+                pass
+            def set(self, level):
+                pass
 
-    except ImportError as e:
-        print('You appear to using this on linux, install with: pip install pyservos[GPIO]')
-        raise
+    # except ImportError as e:
+    #     print('You appear to using this on linux, install with: pip install pyservos[GPIO]')
+    #     raise
 
 
 class Serial_Pin(object):

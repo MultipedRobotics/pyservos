@@ -17,39 +17,39 @@ import argparse
 
 
 def handleArgs():
-	parser = argparse.ArgumentParser(description='Resets servo(s) to factory defaults')
-	parser.add_argument('-a', '--all', help='reset all servos to defaults', action='store_true')
-	parser.add_argument('-i', '--id', help='servo id', type=int, default=1)
-	parser.add_argument('port', help='serial port or \'dummy\' for testing', type=str)
+    parser = argparse.ArgumentParser(description='Resets servo(s) to factory defaults')
+    parser.add_argument('-a', '--all', help='reset all servos to defaults', action='store_true')
+    parser.add_argument('-i', '--id', help='servo id', type=int, default=1)
+    parser.add_argument('port', help='serial port or \'dummy\' for testing', type=str)
 
-	args = vars(parser.parse_args())
-	return args
+    args = vars(parser.parse_args())
+    return args
 
 
 def main():
-	args = handleArgs()
+    args = handleArgs()
 
-	port = args['port']
+    port = args['port']
 
-	servo = Packet(pyservos.AX12)
+    servo = Packet(pyservos.AX12)
 
-	if args['all']:
-		ID = servo.base.BROADCAST_ADDR
-	else:
-		ID = args['id']
+    if args['all']:
+        ID = servo.base.BROADCAST_ADDR
+    else:
+        ID = args['id']
 
-	ser = ServoSerial(port=port)
-	ser.open()
+    ser = ServoSerial(port=port)
+    ser.open()
 
-	pkt = servo.makeRebootPacket(ID)
+    pkt = servo.makeRebootPacket(ID)
 
-	ser.write(pkt)
-	gramar = 'is'
-	if ID == servo.base.BROADCAST_ADDR:
-		ID = 'all'
-		gramar = 'are'
-	print('Servo[{}] {} rebooting'.format(ID, gramar))
+    ser.write(pkt)
+    gramar = 'is'
+    if ID == servo.base.BROADCAST_ADDR:
+        ID = 'all'
+        gramar = 'are'
+    print('Servo[{}] {} rebooting'.format(ID, gramar))
 
 
 if __name__ == '__main__':
-	main()
+    main()
