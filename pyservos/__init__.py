@@ -17,7 +17,7 @@ ErrorsXL320 = IntFlag('ErrorsXL320',
     overload instrunction none')
 
 
-# from pyservos.servoserial import ServoSerial
+from pyservos.servoserial import ServoSerial
 from pyservos.packet import Packet
 from pyservos.ax12 import AX12
 from pyservos.xl320 import XL320

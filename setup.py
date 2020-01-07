@@ -53,7 +53,7 @@ setup(
     install_requires=[
         'pyserial',
         'build_utils',
-        'linuxinfo'
+        # 'linuxinfo'
         # 'RPi.GPIO'
     ],
     cmdclass={

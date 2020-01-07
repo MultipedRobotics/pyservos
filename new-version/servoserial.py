@@ -50,11 +50,11 @@ import platform
 #                 pass
 #             def set(self, level):
 #                 pass
-#
-#     # except ImportError as e:
-#     #     print('You appear to using this on linux, install with: pip install pyservos[GPIO]')
-#     #     raise
-#
+
+    # except ImportError as e:
+    #     print('You appear to using this on linux, install with: pip install pyservos[GPIO]')
+    #     raise
+
 
 # class Serial_Pin(object):
 #     """

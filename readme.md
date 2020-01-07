@@ -12,12 +12,12 @@ This is still a work in progress and **only** supports AX-12A and XL-320. The
 library is divided up as follows:
 
 - pyservos
-	- **ServoSerial** - half duplex hardware serial interface
-	- **Packet** - creates packets to talk to the servo
-	- **utils** - misc
-	- **XL320** - register/command/error definitions for Dynamixel's XL-320 servo
-	- **AX12** - register/command/error definitions for Dynamixel's AX-12A servo
-	- **XL430** - register/command/error definitions for Dynamixel's AX-12A servo
+    - **ServoSerial** - half duplex hardware serial interface
+    - **Packet** - creates packets to talk to the servo
+    - **utils** - misc
+    - **XL320** - register/command/error definitions for Dynamixel's XL-320 servo
+    - **AX12** - register/command/error definitions for Dynamixel's AX-12A servo
+    - **XL430** - register/command/error definitions for Dynamixel's AX-12A servo
 
 # Setup
 
@@ -25,11 +25,12 @@ library is divided up as follows:
 
 The suggested way to install this is via the `pip` command as follows::
 
-	pip install pyservos
+    pip install pyservos
 
-If you intend to install on an RPi and use a GPIO pin as the `DTR` pin, then do:
+If you intend to install on an Raspberry Pi and use a GPIO pin as the `DTR` pin,
+then do:
 
-	pip install pyservos[GPIO]
+    pip install pyservos[GPIO]
 
 This will also install `RPi.GPIO`  package, but this *only* works on an RPi.
 
@@ -37,9 +38,9 @@ This will also install `RPi.GPIO`  package, but this *only* works on an RPi.
 
 To submit git pulls, clone the repository and set it up as follows:
 
-	git clone https://github.com/walchko/pyservos
-	cd pyservos
-	pip install -e .
+    git clone https://github.com/walchko/pyservos
+    cd pyservos
+    pip install -e .
 
 # Usage
 
