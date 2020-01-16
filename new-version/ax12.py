@@ -5,7 +5,7 @@ class AX12(Protocol1):
     """
     This class handles the AX-12A servo using Dynimel's Protocol version 1.0.
     """
-    SERVO_ID = 1  # used to tell AX and XL servos appart
+    # SERVO_ID = 1  # used to tell AX and XL servos appart
     # SERVO_TYPE = ServoTypes.ax12
     MAX_RPM = int(59/0.111)
 

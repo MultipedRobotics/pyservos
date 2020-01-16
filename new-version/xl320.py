@@ -1,8 +1,8 @@
 from protocol2 import Protocol2
 
 class XL320(Protocol2):
-    SERVO_ID = 2  # used to tell AX and XL servos appart
-    SERVO_TYPE = ServoTypes.xl320
+    # SERVO_ID = 2  # used to tell AX and XL servos appart
+    # SERVO_TYPE = ServoTypes.xl320
 
     # --------- INSTRUCTIONS -----
     PING      = 0x01
