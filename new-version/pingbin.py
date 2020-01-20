@@ -4,6 +4,7 @@ from pyservos.servoserial import ServoSerial
 import sys
 import argparse
 import time
+from colorama import Fore, Back
 # import pyservos
 
 
@@ -11,29 +12,32 @@ import time
 def print_status_pkt(info):
     print('---------------------------------------')
     print("{:.<29} {}".format('id', info['id']))
-    print("{:.<29} {}".format('Error', info['error str']))
+    if info['error str'] == "None":
+        print(Fore.GREEN + "{:.<29} {}".format('Error', info['error str']) + Fore.RESET)
+    else:
+        print(Fore.RED + "{:.<29} {}".format('Error', info['error str']) + Fore.RESET)
     print('raw pkt: {}'.format(info['raw']))
 
-def ping():
+def ping(serial):
     """
     Sends a ping packet to ID's from 0 to maximum and prints out any returned
     messages.
 
     Actually send a broadcast and will retry (resend) the ping 3 times ...
     """
-    port = "/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A904MISU-if00-port0"
+    # port = "/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A904MISU-if00-port0"
     retry = 3
     valid_return = False
 
-    s = ServoSerial(port)
+    s = serial  # FIXME
 
-    try:
-        s.open()
-    except Exception as e:
-        print('-'*40)
-        print(sys.argv[0], ':')
-        print(e)
-        exit(1)
+    # try:
+    #     s.open()
+    # except Exception as e:
+    #     print('-'*40)
+    #     print(sys.argv[0], ':')
+    #     print(e)
+    #     exit(1)
 
     servo = AX12()
 
@@ -68,4 +72,4 @@ def ping():
     s.close()
 
 
-ping()
+# ping()
