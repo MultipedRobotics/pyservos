@@ -39,8 +39,8 @@ jobs:
               run: poetry install
             - name: Run PyTest
               run: poetry run pytest
-            - name: Run mypy
-              run: poetry run mypy pyservos
+            # - name: Run mypy
+            #   run: poetry run mypy pyservos
             # - name: nosetests
             #   run: |
             #     pip install nose
