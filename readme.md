@@ -1,4 +1,9 @@
-![](https://raw.githubusercontent.com/MultipedRobotics/pyservos/master/pics/complex.gif)
+![](https://raw.githubusercontent.com/MultipedRobotics/pyservos/master/pics/dynamixel.jpg)
+
+[![Actions Status](https://github.com/MultipedRobotics/dh/workflows/CheckPackage/badge.svg)](https://github.com/MultipedRobotics/pyservos/actions)
+![GitHub](https://img.shields.io/github/license/multipedrobotics/pyservos)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pyservos)
+![PyPI](https://img.shields.io/pypi/v/pyservos)
 
 # pyServos
 
