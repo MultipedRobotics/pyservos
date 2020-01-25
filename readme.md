@@ -1,19 +1,13 @@
-![](https://raw.githubusercontent.com/MomsFriendlyRobotCompany/pyservos/master/pics/complex.gif)
+![](https://raw.githubusercontent.com/MultipedRobotics/pyservos/master/pics/complex.gif)
 
 # pyServos
 
 **Still under development**
 **Starting to add XL-430 servo**
 
-**WARNING:** As I add new servos, might change some of the class names because
-I don't think they make sense now. Maybe: Protocol1 (AX) and Protocol2 (XL)
-
-This is still a work in progress and **only** supports AX-12A and XL-320. The
-library is divided up as follows:
-
 - pyservos
-    - **ServoSerial** - half duplex hardware serial interface
-    - **Packet** - creates packets to talk to the servo
+    - **ServoSerial** - half duplex hardware serial interface using DTR from a USB serial port
+    - **PiServoSerial** - half duplex hardware serial interface using a HW pin
     - **utils** - misc
     - **XL320** - register/command/error definitions for Dynamixel's XL-320 servo
     - **AX12** - register/command/error definitions for Dynamixel's AX-12A servo
@@ -27,20 +21,16 @@ The suggested way to install this is via the `pip` command as follows::
 
     pip install pyservos
 
-If you intend to install on an Raspberry Pi and use a GPIO pin as the `DTR` pin,
-then do:
-
-    pip install pyservos[GPIO]
-
-This will also install `RPi.GPIO`  package, but this *only* works on an RPi.
-
 ## Development
 
-To submit git pulls, clone the repository and set it up as follows:
+I am currently using [poetry](https://python-poetry.org/) for my library and using
+`pyproject.toml`. To submit git pulls, clone the repository and set it up as
+follows:
 
     git clone https://github.com/MultipedRobotics/pyservos
     cd pyservos
     poetry install
+    poety run pytest
 
 # Usage
 
@@ -48,6 +38,7 @@ The `\bin` directory has a number of useful programs to set servo position or ID
 run the command with the `--help` flag to see how to use it.
 
 - `servoAX12`
+- `servoXL320`
 - `servoXL430`
 
 | Command       |  Description |
@@ -69,13 +60,14 @@ A simple example to turn the servo and turn the LED on using a USB serial conver
 
 ```python
 # Run an AX-12 servo
-from pyservos import ServoSerial, Packet, AX12
+from pyservos.servo_serial import ServoSerial
+from pyservos.ax12 import AX12
 
 serial = ServoSerial('/dev/tty.usbserial')  # tell it what port you want to use
 # serial = ServoSerial('dummy')  # use a dummy serial interface for testing
 serial.open()
 
-ax = Packet(AX12)
+ax = AX12()
 pkt = ax.makeServoPacket(1, 158.6)  # move servo 1 to 158.6 degrees
 ret = serial.sendPkt(pkt)  # send packet, I don't do anything with the returned status packet
 
@@ -88,10 +80,10 @@ your own using the basic `makeWritePacket` and `makeReadPacket`.
 
 ```python
 # Run an XL-320 servo
-from pyservos import Packet, XL320
+from pyservos.xl320 import XL320
 from pyservos.utils import angle2int
 
-xl = Packet(XL320)
+xl = XL320()
 
 # let's make our own servo packet that sends servo 3 to 220.1 degrees
 ID = 3

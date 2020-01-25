@@ -2,8 +2,10 @@
 # from .ax12 import AX12
 # from .xl320 import XL320
 # from .xl430 import XL430
-from importlib_metadata import version # type: ignore
-
+try:
+    from importlib_metadata import version # type: ignore
+except ImportError:
+    from importlib.metadata import version # type: ignore
 
 __copyright__ = 'Copyright (c) 2016 Kevin Walchko'
 __license__ = 'MIT'
