@@ -1,4 +1,5 @@
 from pyservos.protocol2 import Protocol2
+from pyservos.common import ResetLevels
 
 class XL320(Protocol2):
     # SERVO_ID = 2  # used to tell AX and XL servos appart
@@ -64,19 +65,3 @@ class XL320(Protocol2):
     DR_57600                   = 1
     DR_115200                  = 2
     DR_1000000                 = 3
-
-    def makeResetPacket(self, ID, level):
-        """
-        Resets a servo.
-        """
-        if ResetLevel.all == level:
-            params = [self.RESET_ALL]
-        elif ResetLevel.allButID == level:
-            params = [self.RESET_ALL_BUT_ID]
-        elif ResetLevel.allButIDDR == level:
-            params = [self.RESET_ALL_BUT_ID_BAUD_RATE]
-        else:
-            raise Exception("Invalid reset level")
-
-        pkt = self.makePacket(ID, self.RESET, params)
-        return pkt

@@ -1,7 +1,7 @@
 from enum import IntFlag
 from pyservos.utils import angle2int, le
-
-ResetLevels = IntFlag('ResetLevels', 'all allButID allButIDDR')
+from pyservos.common import ResetLevels
+# ResetLevels = IntFlag('ResetLevels', 'all allButID allButIDDR')
 
 class Protocol1:
     """
