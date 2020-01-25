@@ -3,79 +3,16 @@
 # Copyright (c) 2016 Kevin Walchko
 # see LICENSE for full details
 ##############################################
-# Serial interfaces (real and test) for communications with XL-320 servos.
+#
 
-from __future__ import division
-from __future__ import print_function
 import serial as PySerial
 import time
-# import os
 # import pty
-import platform
-
-# sys = platform.system()
-# if sys == 'Linux' or sys == 'Linux2':
-#     from linuxinfo import pi_info
-#     rpi = pi_info() # if this isn't an RPi, then it returns None
-#     if rpi:
-#         # Not sure the best way to do this, but if on linux/pi, then import these
-#         import RPi.GPIO as GPIO
-#         GPIO.setmode(GPIO.BCM)
-#         print("Linux detected, loading GPIO")
-#
-#         class Pi_Pin(object):
-#             """
-#             Robotis servos interface uses a pin to determine flow control across the
-#             half duplex interface. If using the RPi on-board serial port, you will
-#             need to select a pin for the flow control. This uses RPi.GPIO as the
-#             library to control that pin.
-#             """
-#             def __init__(self, pin):
-#                 """pin is the BCM pin number and NOT the Pi pin number"""
-#                 import RPi.GPIO as GPIO
-#                 GPIO.setmode(GPIO.BCM)
-#                 self.pin = pin
-#                 GPIO.setup(self.pin, GPIO.OUT)
-#
-#             def __del__(self):
-#                 GPIO.cleanup()
-#
-#             def set(self, level):
-#                 GPIO.output(self.pin, not level)
-#     else:
-#         class Pi_Pin(object):
-#             def __init__(self, pin):
-#                 pass
-#             def __del__(self):
-#                 pass
-#             def set(self, level):
-#                 pass
-
-    # except ImportError as e:
-    #     print('You appear to using this on linux, install with: pip install pyservos[GPIO]')
-    #     raise
+# import platform
 
 
-# class Serial_Pin(object):
-#     """
-#     Robotis servos interface uses a pin to determine flow control across the
-#     half duplex interface. If using a USB serial port, you can use pyserial
-#     and command either DTR or RTS pin as the flow control. This class toggles
-#     BOTH DTR and RTS, incase your USB serial only provides access to one of
-#     them.
-#     """
-#     def __init__(self, serial):
-#         self.serial = serial
-#
-#     def __del__(self):
-#         pass
-#
-#     def set(self, level):
-#         self.serial.dtr = level
-#         self.serial.rts = level
 
-
-class ServoSerial(object):
+class ServoSerial:
     """
     A wrapper around pyserial to work with Dynamixel servos' half duplex
     interface. This requires extra hardware added to your normal full duplex
@@ -106,7 +43,7 @@ class ServoSerial(object):
     loop_addr = 'loop://'
     pi_pin = None
 
-    def __init__(self, port, baud_rate=1000000, pi_pin=None):
+    def __init__(self, port, baud_rate=1000000):
         """
         Constructor: sets up the serial port
 
@@ -125,9 +62,9 @@ class ServoSerial(object):
         self.serial.timeout = 0.005
 
         # this only gets used on linux with GPIO
-        if pi_pin:
-            self.pi_pin = pi_pin
-            GPIO.setup(pi_pin, GPIO.OUT)
+        # if pi_pin:
+        #     self.pi_pin = pi_pin
+        #     GPIO.setup(pi_pin, GPIO.OUT)
 
     def __del__(self):
         """
@@ -136,18 +73,18 @@ class ServoSerial(object):
         self.close()
 
         # this only gets used on linux with GPIO
-        if self.pi_pin:
-            GPIO.cleanup()
+        # if self.pi_pin:
+        #     GPIO.cleanup()
 
     def setRTS(self, level):
         time.sleep(self.SLEEP_TIME)
         # only need one of these, but the lazy option to if statements to determine
         # if using DTR or RTS as the direction pin
-        if self.pi_pin:
-            GPIO.output(self.pi_pin, not level)
-        else:
-            self.serial.dtr = level
-            self.serial.rts = level
+        # if self.pi_pin:
+        #     GPIO.output(self.pi_pin, not level)
+        # else:
+        self.serial.dtr = level
+        self.serial.rts = level
 
     def open(self):
         if self.serial.is_open:

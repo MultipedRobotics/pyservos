@@ -38,23 +38,26 @@ This will also install `RPi.GPIO`  package, but this *only* works on an RPi.
 
 To submit git pulls, clone the repository and set it up as follows:
 
-    git clone https://github.com/walchko/pyservos
+    git clone https://github.com/MultipedRobotics/pyservos
     cd pyservos
-    pip install -e .
+    poetry install
 
 # Usage
 
 The `\bin` directory has a number of useful programs to set servo position or ID number. Just
 run the command with the `--help` flag to see how to use it.
 
-| Command              |  Description |
-|----------------------|--------------|
-| `servo_ping.py`      | pings one or all of the servos |
-| `servo_reboot.py`    | reboots one or all servos |
-| `servo_reset.py`     | resets one or all servos to a specified level |
-| `set_angle.py`       | sets the angle of a given servo |
-| `set_baud_rate.py`   | change the baud rate of the servos |
-| `set_id.py`          | changes the ID number for a given servo |
+- `servoAX12`
+- `servoXL430`
+
+| Command       |  Description |
+|---------------|--------------|
+| `--ping`      | pings one or all of the servos |
+| `--reboot`    | reboots one or all servos |
+| `--reset`     | resets one or all servos to a specified level |
+| `--angle`     | sets the angle of a given servo |
+| `--baudrate`  | change the baud rate of the servos |
+| `--id`        | changes the ID number for a given servo |
 
 # Documentation
 
@@ -101,14 +104,12 @@ pkt = xl.makeWritePacket(ID, reg, params)
 
 Here are some example [robots](https://github.com/MomsFriendlyRobotCompany/pyservos/tree/master/docs/robots)
 
-# ToDo
-
-- change `bin`
 
 # Change Log
 
 | | | |
 |------------|-------|--------------------------------------------|
+| 2020-01-25 | 2.0.0 | re-architected around protocols rather than servos types |
 | 2018-04-30 | 1.0.1 |  API fixes and starting to add 430 support |
 | 2018-02-17 | 1.0.0 |  added AX-12 support and renamed the library |
 | 2017-04-01 | 0.9.0 |  added python3 support |

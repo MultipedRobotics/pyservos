@@ -4,10 +4,6 @@
 # see LICENSE for full details
 ##############################################
 
-from __future__ import division
-from __future__ import print_function
-
-
 def le(h):
     """
     Little-endian, takes a 16b number and returns an array arrange in little
