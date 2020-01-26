@@ -6,7 +6,7 @@
 
 from typing import Sequence
 
-def le(h: int) -> Sequence[int]:
+def le(h): # (int) -> Sequence[int]
     """
     Little-endian, takes a 16b number and returns an array arrange in little
     endian or [low_byte, high_byte].

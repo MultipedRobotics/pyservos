@@ -60,7 +60,8 @@ class Protocol1:
         else:  # set as default since it is the safest if things go bad
             lvl = self.RESET_ALL_BUT_ID_BAUD_RATE
 
-        pkt = self.makePacket(ID, self.RESET, [lvl])
+        # pkt = self.makePacket(ID, self.RESET, [lvl])
+        ptk = None
         return pkt
 
     def makeRebootPacket(self, ID):
@@ -70,6 +71,9 @@ class Protocol1:
 
         pkt = self.makePacket(ID, self.REBOOT)
         return pkt
+
+    def makeGetAngle(self, ID):
+        pkt = self.makeReadPacket(ID, )
 
     def makeServoMovePacket(self, ID, angle, degrees=True):
         """
@@ -168,6 +172,10 @@ class Protocol1:
             self.GOAL_VELOCITY,
             le(speed)
         )
+        return pkt
+
+    def makeServoInfoPacket(self, ID):
+        pkt = self.makeReadPacket()
         return pkt
 
     def decodePacket(self, pkts):

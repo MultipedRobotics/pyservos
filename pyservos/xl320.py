@@ -4,6 +4,8 @@ from pyservos.common import ResetLevels
 class XL320(Protocol2):
     # SERVO_ID = 2  # used to tell AX and XL servos appart
     # SERVO_TYPE = ServoTypes.xl320
+    MAX_ANGLE = 300
+    NAME = "XL-320"
 
     # --------- INSTRUCTIONS -----
     PING      = 0x01

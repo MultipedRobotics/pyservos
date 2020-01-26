@@ -1,4 +1,19 @@
 from pyservos.protocol1 import Protocol1
+from enum import IntFlag
+
+P1Errors = IntFlag('P1Errors',
+    {
+        'voltage':     2**0, # voltage is outside operating range
+        'angle':       2**1, # invalid angle
+        'overheat':    2**2, # temperature is out of range
+        'range':       2**3, # instruction is out of range
+        'checksum':    2**4, # invalid checksum
+        'overload':    2**5, # current can't meet required torque
+        'instruction': 2**6, # invalid instruction
+        'none':        2**7  # not used
+    }
+)
+
 
 class AX12(Protocol1):
     # registers
@@ -8,6 +23,8 @@ class AX12(Protocol1):
     # SERVO_ID = 1  # used to tell AX and XL servos appart
     # SERVO_TYPE = ServoTypes.ax12
     MAX_RPM = int(59/0.111)
+    MAX_ANGLE = 300
+    NAME = "AX-12A"
 
     # --------- INSTRUCTIONS -----
     PING      = 0x01
@@ -15,8 +32,8 @@ class AX12(Protocol1):
     WRITE     = 0x03
     REG_WRITE = 0x04
     ACTION    = 0x05
-    RESET     = 0x06
-    # REBOOT    = 0x08
+    RESET     = 0x06 # reset to factory levels: 1,2,3
+    REBOOT    = 0x08
     # STATUS    = 0x55
     # SYNC_READ  = 0x82
     SYNC_WRITE = 0x83
@@ -60,3 +77,9 @@ class AX12(Protocol1):
     WHEEL_MODE                 = 1
     JOINT_MODE                 = 2  # normal servo
     DR_1000000                 = 1  # bps = 2000000/(data + 1)
+    DR_500000                  = 2
+    DR_400000                  = 4
+    DR_250000                  = 7
+    DR_200000                  = 9
+    DR_115200                  = 16
+    DR_57600                   = 34

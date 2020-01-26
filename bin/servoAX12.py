@@ -15,73 +15,81 @@ from pyservos.servo_serial import ServoSerial
 import argparse
 import time
 from math import pi
-from lib import ping
-from lib import set_id
-from lib import set_angle
-from lib import get_angle
+# from lib import ping
+# from lib import set_id
+# from lib import set_angle
+# from lib import get_angle
+from lib import loop, handleArgs
 from colorama import Fore, Back
 import platform  # system info
 
 
-def handleArgs():
-    parser = argparse.ArgumentParser(description='servo tool', add_help=True)
-    # parser.add_argument('port', help='serial port', type=str)
-    # parser.add_argument('--rate', help='serial port data rate', type=int, default=1000000)
-    # parser.add_argument('-h','--help', action=_HelpAction, help='help for help if you need some help')  # add custom help
+# def handleArgs(string=None):
+#     parser = argparse.ArgumentParser(description='servo tool', add_help=True)
+#     # parser.add_argument('port', help='serial port', type=str)
+#     # parser.add_argument('--rate', help='serial port data rate', type=int, default=1000000)
+#     # parser.add_argument('-h','--help', action=_HelpAction, help='help for help if you need some help')  # add custom help
+#
+#     subparsers = parser.add_subparsers()
+#
+#     # Set Angle ---------------------------------------------------------------
+#     sa = subparsers.add_parser('angle', description="set servo angle")
+#     sa.add_argument('id', help='servo id [0-254]', type=int)
+#     sa.add_argument('angle', help='angle to set servo to [0-300] deg', type=float)
+#     sa.add_argument('--radians', help='optionally enter angle in radians', action='store_true')
+#     sa.set_defaults(which='set_angle')
+#
+#     # Set ID ------------------------------------------------------------------
+#     si = subparsers.add_parser('id', description="set servo ID")
+#     # si.add_argument('-i', '--interactive', help='input via commandline', action='store_true')
+#     si.add_argument('current_id', help='current id', type=int)
+#     si.add_argument('new_id', help='set new id', type=int)
+#     si.set_defaults(which='set_id')
+#
+#     # Ping --------------------------------------------------------------------
+#     p = subparsers.add_parser('ping', description="send ping")
+#     p.add_argument('--id', help='servo id to ping', type=int, default=254)
+#     p.set_defaults(which='ping')
+#
+#     # Get Angle----------------------------------------------------------------
+#     ga = subparsers.add_parser('get', description="get servo angle")
+#     ga.add_argument('id', help='get servo angle', type=int)
+#     ga.set_defaults(which='get_angle')
+#
+#     # Reboot ------------------------------------------------------------------
+#     rb = subparsers.add_parser('reboot', description="reboot a servo")
+#     rb.add_argument('id', help='reboot servo ID', type=int, default=254)
+#     rb.set_defaults(which='reboot')
+#
+#     # Reset -------------------------------------------------------------------
+#     r = subparsers.add_parser('reset', description="reset servo")
+#     r.add_argument('id', help='get servo angle', type=int)
+#     r.add_argument('level', help="reset leve: 1-all, 2-all but ID, 3-all but ID and baudrate", type=int, default=3)
+#     r.set_defaults(which='reset')
+#
+#     # Set Baudrate ------------------------------------------------------------
+#     b = subparsers.add_parser('baudrate', description="set servo baudrate")
+#     b.add_argument('baudrate', help='set servo baudrate', type=int)
+#     b.set_defaults(which='set_baudrate')
+#
+#     l = subparsers.add_parser('loop', description="loop")
+#     l.set_defaults(which='loop')
+#
+#     # Main Servo --------------------------------------------------------------
+#     parser.add_argument('port', help='serial port', type=str)
+#     parser.add_argument('--rate', help='serial port data rate', type=int, default=1000000)
+#     parser.add_argument('--dtr', help="set DTR pin for a Raspberry Pi", type=int)
+#     parser.add_argument('-d', '--debug', help="print debugging info", action="store_true")
+#     # parser.add_argument('--loop', help="enter an interactive session", action="store_true")
+#
+#     if string:
+#         parser.parse_args(string)
+#
+#     args = vars(parser.parse_args())
+#     return args
 
-    subparsers = parser.add_subparsers()
 
-    # Set Angle ---------------------------------------------------------------
-    sa = subparsers.add_parser('angle', description="set servo angle")
-    sa.add_argument('id', help='servo id [0-254]', type=int)
-    sa.add_argument('angle', help='angle to set servo to [0-300] deg', type=float)
-    sa.add_argument('--radians', help='optionally enter angle in radians', action='store_true')
-    sa.set_defaults(which='set_angle')
-
-    # Set ID ------------------------------------------------------------------
-    si = subparsers.add_parser('id', description="set servo ID")
-    # si.add_argument('-i', '--interactive', help='input via commandline', action='store_true')
-    si.add_argument('current_id', help='current id', type=int)
-    si.add_argument('new_id', help='set new id', type=int)
-    si.set_defaults(which='set_id')
-
-    # Ping --------------------------------------------------------------------
-    p = subparsers.add_parser('ping', description="send ping")
-    p.add_argument('--id', help='servo id to ping', type=int, default=254)
-    p.set_defaults(which='ping')
-
-    # Get Angle----------------------------------------------------------------
-    ga = subparsers.add_parser('get', description="get servo angle")
-    ga.add_argument('id', help='get servo angle', type=int)
-    ga.set_defaults(which='get_angle')
-
-    # Reboot ------------------------------------------------------------------
-    rb = subparsers.add_parser('reboot', description="reboot a servo")
-    rb.add_argument('id', help='reboot servo ID', type=int, default=254)
-    rb.set_defaults(which='reboot')
-
-    # Reset -------------------------------------------------------------------
-    r = subparsers.add_parser('reset', description="reset servo")
-    r.add_argument('id', help='get servo angle', type=int)
-    r.add_argument('level', help="reset leve: 1-all, 2-all but ID, 3-all but ID and baudrate", type=int, default=3)
-    r.set_defaults(which='reset')
-
-    # Set Baudrate ------------------------------------------------------------
-    b = subparsers.add_parser('baudrate', description="set servo baudrate")
-    b.add_argument('baudrate', help='set servo baudrate', type=int)
-    b.set_defaults(which='set_baudrate')
-
-    # Main Servo --------------------------------------------------------------
-    parser.add_argument('port', help='serial port', type=str)
-    parser.add_argument('--rate', help='serial port data rate', type=int, default=1000000)
-    parser.add_argument('--dtr', help="set DTR pin for a Raspberry Pi", type=int)
-    parser.add_argument('-d', '--debug', help="print debugging info", action="store_true")
-
-    args = vars(parser.parse_args())
-    return args
-
-
-if __name__ == "__main__":
+def main(servo):
 
     args = handleArgs()
 
@@ -122,14 +130,14 @@ if __name__ == "__main__":
     # Print serial open success!!!
     uname = platform.uname()
     print(Back.GREEN + "="*80)
-    print("| Servo AX-12A Tool")
+    # print("| Servo AX-12A Tool")
     print(f"| {uname.node}:{uname.system}")
     print(f"| Python {platform.python_version()}")
     print(f"| baudrate: {args['rate']}")
     print(f"| serial port: {args['port']}")
     print("-"*80 + Back.RESET)
 
-    servo = AX12()
+    # servo = AX12()
 
     choice = args['which']
     if choice == "ping":
@@ -174,5 +182,13 @@ if __name__ == "__main__":
             exit(1)
         pkt = servo.makeResetPacket(args['id'], args['level'])
         serial.write(pkt)
+    # elif args['loop']:
+    elif choice == "loop":
+        loop(serial, servo)
 
     serial.close()
+
+
+if __name__ == "__main__":
+    servo = AX12()
+    main(servo)
