@@ -1,8 +1,8 @@
 #!/usr/bin/env python
-from ax12 import AX12
-from pyservos.servoserial import ServoSerial
-import sys
-import argparse
+from pyservos.ax12 import AX12
+# from pyservos.servoserial import ServoSerial
+# import sys
+# import argparse
 import time
 from colorama import Fore, Back
 # import pyservos
@@ -18,7 +18,7 @@ def print_status_pkt(info):
         print(Fore.RED + "{:.<29} {}".format('Error', info['error str']) + Fore.RESET)
     print('raw pkt: {}'.format(info['raw']))
 
-def ping(serial):
+def ping(serial, id):
     """
     Sends a ping packet to ID's from 0 to maximum and prints out any returned
     messages.
@@ -29,7 +29,9 @@ def ping(serial):
     retry = 3
     valid_return = False
 
-    s = serial  # FIXME
+    # s = ServoSerial(port)  # FIXME
+    s = serial
+    s.open()
 
     # try:
     #     s.open()
@@ -41,7 +43,7 @@ def ping(serial):
 
     servo = AX12()
 
-    pkt = servo.makePingPacket(None)
+    pkt = servo.makePingPacket(id)
     s.write(pkt)
 
     found_servos = {}
@@ -69,7 +71,12 @@ def ping(serial):
     else:
         print('No servos found')
 
-    s.close()
 
+def set_id(serial, current_id, new_id):
+    pass
 
-# ping()
+def set_angle(serial, id, angle):
+    pass
+
+def get_angle(serial, id):
+    pass

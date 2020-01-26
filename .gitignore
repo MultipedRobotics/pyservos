@@ -9,3 +9,5 @@ dist
 build
 __pychache__
 *.json
+.mypy_cache
+.pytest_cache

@@ -3,9 +3,10 @@
 # Copyright (c) 2016 Kevin Walchko
 # see LICENSE for full details
 ##############################################
-#
-
-import serial as PySerial
+# List - return type
+# Sequence - arg type
+from typing import Sequence, Union, List
+import serial as PySerial # type: ignore
 import time
 # import pty
 # import platform
@@ -41,9 +42,9 @@ class ServoSerial:
     SLEEP_TIME = 0.00005    # sleep time between read/write
     # fake = False
     loop_addr = 'loop://'
-    pi_pin = None
+    # pi_pin: = None
 
-    def __init__(self, port, baud_rate=1000000):
+    def __init__(self, port, baud_rate=1000000): # type: (str,int) -> None
         """
         Constructor: sets up the serial port
 
@@ -66,7 +67,7 @@ class ServoSerial:
         #     self.pi_pin = pi_pin
         #     GPIO.setup(pi_pin, GPIO.OUT)
 
-    def __del__(self):
+    def __del__(self) -> None:
         """
         Destructor: closes the serial port
         """
@@ -76,7 +77,7 @@ class ServoSerial:
         # if self.pi_pin:
         #     GPIO.cleanup()
 
-    def setRTS(self, level):
+    def setRTS(self, level: bool) -> None:
         time.sleep(self.SLEEP_TIME)
         # only need one of these, but the lazy option to if statements to determine
         # if using DTR or RTS as the direction pin
@@ -86,7 +87,7 @@ class ServoSerial:
         self.serial.dtr = level
         self.serial.rts = level
 
-    def open(self):
+    def open(self) -> None:
         if self.serial.is_open:
             return
 
@@ -100,7 +101,7 @@ class ServoSerial:
             raise Exception('Could not open {}'.format(self.serial.port))
 
     @staticmethod
-    def decode(buff):
+    def decode(buff: Sequence[int]) -> List[int]:
         """
         Transforms the raw buffer data read in into a list of bytes
 
@@ -111,7 +112,7 @@ class ServoSerial:
             pp = []
         return pp
 
-    def read(self, how_much=128):  # FIXME: 128 might be too much ... what is largest?
+    def read(self, how_much: int=128) -> Union[List[int], None]:  # FIXME: 128 might be too much ... what is largest?
         """
         This toggles the RTS pin and reads in data. It also converts the buffer
         back into a list of bytes and searches through the list to find valid
@@ -133,7 +134,7 @@ class ServoSerial:
             data = None
         return data
 
-    def write(self, pkt):
+    def write(self, pkt: List[int]) -> int:
         """
         This is a simple serial write command. It toggles the RTS pin and formats
         all of the data into bytes before it writes.
@@ -146,13 +147,13 @@ class ServoSerial:
         self.setRTS(self.DD_WRITE)
         self.serial.flushInput()
         # prep data array for transmition
-        pkt = bytearray(pkt)
-        pkt = bytes(pkt)
+        pkts = bytearray(pkt)
+        bpkts = bytes(pkts)
 
-        num = self.serial.write(pkt)
+        num = self.serial.write(bpkts)
         return num
 
-    def sendPkt(self, pkt, retry=5, sleep_time=0.01):
+    def sendPkt(self, pkt: List[int], retry: int=5, sleep_time: float=0.01) -> Union[List[int], None]:
         """
         Sends a packet and waits for a return. If no return is given, then it
         resends the packet. If an error occurs, it also resends the packet.
@@ -179,7 +180,7 @@ class ServoSerial:
 
         return ans
 
-    def close(self):
+    def close(self): # type: () -> None
         """
         If the serial port is open, it closes it.
         """

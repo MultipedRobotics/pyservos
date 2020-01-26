@@ -46,6 +46,14 @@ run the command with the `--help` flag to see how to use it.
 - `servoXL320`
 - `servoXL430`
 
+ - servoXXX
+    - ping: ID[int|None]
+    - reboot: ID[int]
+    - reset: ID[int|None], level[int]
+    - angle: angle[float], degrees[True|False]
+    - baudrate: rate[int]
+    - id: old[int], new[int]
+
 | Command       |  Description |
 |---------------|--------------|
 | `--ping`      | pings one or all of the servos |

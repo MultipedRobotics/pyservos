@@ -1,12 +1,17 @@
 from enum import IntFlag
 from pyservos.utils import angle2int, le
 from pyservos.common import ResetLevels
-# ResetLevels = IntFlag('ResetLevels', 'all allButID allButIDDR')
+# from typing import Sequence, List, Union
+
 
 class Protocol1:
     """
-    This is a wrapper class for the xl-320 and ax-12 servos. It can only talk
+    This is a wrapper class for the ax-12 servos. It can only talk
     to one servo type at a time.
+
+    Note: this class cannot be used by itself, since it references parameters
+    that are not part of the class. The child class will set the value of
+    these registers (i.e., self.WRITE, self.READ)
     """
 
     def makePingPacket(self, ID=None):
