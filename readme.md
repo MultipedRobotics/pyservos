@@ -47,8 +47,8 @@ run the command with the `--help` flag to see how to use it.
 - `servoXL430`
 
  - servoXXX
-    - **ping**: find servos on bus, ID[int]
-    - **reboot**: reboot a servo, ID[int]
+    - **ping**: find servos on bus, ID[int|**None**]
+    - **reboot**: reboot a servo, ID[int|**None**]
     - **reset**: reset a servo, ID[int], level[int]
     - **angle**: set new angle in degrees or radians, angle[float], radians[True|**False**]
     - **baudrate**: set new baudrate, rate[int]
@@ -57,6 +57,8 @@ run the command with the `--help` flag to see how to use it.
     - ID: 1-254
     - level: 1 (all), 2(all but ID), 3 (all but ID and baudrate)
     - angle: 0-300 degrees
+    - rate: 1000000 is default
+    - None: if you leave out the value, there is a default that occurs which is safe
 
 # Documentation
 
@@ -102,8 +104,7 @@ pkt = xl.makeWritePacket(ID, reg, params)
 
 ## Robot Examples
 
-Here are some example [robots](https://github.com/MomsFriendlyRobotCompany/pyservos/tree/master/docs/robots)
-
+Here are some example [robots](https://github.com/MultipedRobotics/pyservos/tree/master/docs/robots)
 
 # Change Log
 

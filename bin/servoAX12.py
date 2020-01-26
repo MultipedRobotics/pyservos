@@ -20,29 +20,8 @@ from lib import set_id
 from lib import set_angle
 from lib import get_angle
 from colorama import Fore, Back
+import platform  # system info
 
-# class _HelpAction(argparse._HelpAction):
-#
-#     def __call__(self, parser, namespace, values, option_string=None):
-#         parser.print_help()
-#
-#         # retrieve subparsers from parser
-#         subparsers_actions = [
-#             action for action in parser._actions
-#             if isinstance(action, argparse._SubParsersAction)]
-#         # there will probably only be one subparser_action,
-#         # but better save than sorry
-#         for subparsers_action in subparsers_actions:
-#             # get all subparsers and print help
-#             for choice, subparser in subparsers_action.choices.items():
-#                 print(f"{choice}: {subparser.format_usage()}")
-#                 # print(subparser.format_help())
-#                 # print(dir(subparser))
-#                 # for line in subparser.format_help():
-#                 #     print(line, end="")
-#                 # print(subparser.format_usage())
-#
-#         parser.exit()
 
 def handleArgs():
     parser = argparse.ArgumentParser(description='servo tool', add_help=True)
@@ -84,7 +63,7 @@ def handleArgs():
     # Reset -------------------------------------------------------------------
     r = subparsers.add_parser('reset', description="reset servo")
     r.add_argument('id', help='get servo angle', type=int)
-    r.add_argument('level', help="reset leve: 1-all, 2-all but ID, 3-all but ID and baudrate", type=int)
+    r.add_argument('level', help="reset leve: 1-all, 2-all but ID, 3-all but ID and baudrate", type=int, default=3)
     r.set_defaults(which='reset')
 
     # Set Baudrate ------------------------------------------------------------
@@ -92,9 +71,11 @@ def handleArgs():
     b.add_argument('baudrate', help='set servo baudrate', type=int)
     b.set_defaults(which='set_baudrate')
 
+    # Main Servo --------------------------------------------------------------
     parser.add_argument('port', help='serial port', type=str)
     parser.add_argument('--rate', help='serial port data rate', type=int, default=1000000)
     parser.add_argument('--dtr', help="set DTR pin for a Raspberry Pi", type=int)
+    parser.add_argument('-d', '--debug', help="print debugging info", action="store_true")
 
     args = vars(parser.parse_args())
     return args
@@ -103,47 +84,95 @@ def handleArgs():
 if __name__ == "__main__":
 
     args = handleArgs()
-    print(args)
 
-    if args['pi']:
+    # check for common errors
+    if 'level' in args:
+        if args['level'] not in [1,2,3]:
+            print(f"Invalid level: {args['level']}")
+            # print(args)
+            print(Fore.RED + str(args) + Fore.RESET)
+            exit(1)
+
+    if 'id' in args:
+        if not (1 <= args['id'] <= 254):
+            print(f"Invalid ID: {args['id']}")
+            # print(args)
+            print(Fore.RED + str(args) + Fore.RESET)
+            exit(1)
+
+    if args['debug']:
+        print(Fore.YELLOW + str(args) + Fore.RESET)
+
+    # create a serial port
+    if args['dtr']:
         from pyservos.pi_servo_serial import PiServoSerial
         serial = PiServoSerial(args['port'], args['dtr'])
     else:
         serial = ServoSerial(args['port'])
-    # try:
-    #     serial.open()
-    # except:
-    #     print(Back.RED + "-------------------------")
-    #     print(f" Invalid port: {args['port']}")
-    #     print("-------------------------" + Back.RESET)
-    #     exit(1)
 
+    # try to open serial port
+    try:
+        serial.open()
+    except:
+        print(Back.RED + "-------------------------")
+        print(f" Invalid port: {args['port']}")
+        print("-------------------------" + Back.RESET)
+        exit(1)
+
+    # Print serial open success!!!
+    uname = platform.uname()
     print(Back.GREEN + "="*80)
     print("| Servo AX-12A Tool")
-    print(f"| serial port: {args['port']}  baudrate: {args['rate']}")
+    print(f"| {uname.node}:{uname.system}")
+    print(f"| Python {platform.python_version()}")
+    print(f"| baudrate: {args['rate']}")
+    print(f"| serial port: {args['port']}")
     print("-"*80 + Back.RESET)
+
+    servo = AX12()
 
     choice = args['which']
     if choice == "ping":
         print(f">> ping {args['id']}")
         ping(serial, args['id'])
+
     elif choice == "set_angle":
+        if 'angle' not in args or 'id' not in args:
+            raise Exception("Invalid input")
+
         angle = args['angle']
         if args['radians']:
             angle = angle*180/pi
 
-        if 0 > angle > 300:
+        if not (0 <= angle <= 300):
             raise Exception(f"Invalid angle: {angle}")
+
         print(f">> set servo[{args['id']}] angle: {angle}")
+
+        pkt = servo.makeServoMovePacket(args['id'], angle)
+        serial.write(pkt)
+
     elif choice == "set_id":
+        if 'current_id' not in args or 'new_id' not in args:
+            print("Invalid input")
+            exit(1)
         print(f">> set servo[{args['id']}]: current: {args['current_id']} new: {args['new_id']}")
+
     elif choice == "get_angle":
+        print(Fore.RED + "Not currently implemented" + Fore.RESET)
         print(f">> get current angle from servo: {args['id']}")
+
     elif choice == "reboot":
         print(f">> reboot servo: {args['id']}")
+        pkt = servo.makeRebootPacket(args['id'])
+        serial.write(pkt)
+
     elif choice == "reset":
         print(f">> reset servo: {args['id']} to level: {args['level']}")
-    # else:
-    #     raise Exception("invalid commands")
+        if args['level'] not in [1,2,3]:
+            print(Fore.RED + "Invalid input" + Fore.RESET)
+            exit(1)
+        pkt = servo.makeResetPacket(args['id'], args['level'])
+        serial.write(pkt)
 
-    # print("-"*80)
+    serial.close()

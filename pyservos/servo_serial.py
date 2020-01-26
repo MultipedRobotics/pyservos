@@ -95,8 +95,9 @@ class ServoSerial:
 
         self.setRTS(self.DD_WRITE)
         if self.serial.isOpen():
-            print('Opened {} @ {}'.format(self.serial.name, self.serial.baudrate))
+            # print('Opened {} @ {}'.format(self.serial.name, self.serial.baudrate))
             # print(self.serial.get_settings())
+            pass
         else:
             raise Exception('Could not open {}'.format(self.serial.port))
 

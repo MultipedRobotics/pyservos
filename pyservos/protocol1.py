@@ -46,11 +46,21 @@ class Protocol1:
         pkt = self.makePacket(ID, self.READ, [reg, values])
         return pkt
 
-    def makeResetPacket(self, ID, level=0):
+    def makeResetPacket(self, ID, level=3):
         """
         Resets a servo.
+        1 - all
+        2 - all but ID
+        3 - all but ID and baudrate (default)
         """
-        pkt = self.makePacket(ID, self.RESET, None)
+        if ResetLevel.all == level:
+            lvl = self.RESET_ALL
+        elif ResetLevel.allButID == level:
+            lvl = self.RESET_ALL_BUT_ID
+        else:  # set as default since it is the safest if things go bad
+            lvl = self.RESET_ALL_BUT_ID_BAUD_RATE
+
+        pkt = self.makePacket(ID, self.RESET, [lvl])
         return pkt
 
     def makeRebootPacket(self, ID):
