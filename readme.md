@@ -47,21 +47,16 @@ run the command with the `--help` flag to see how to use it.
 - `servoXL430`
 
  - servoXXX
-    - ping: ID[int|None]
-    - reboot: ID[int]
-    - reset: ID[int|None], level[int]
-    - angle: angle[float], degrees[True|False]
-    - baudrate: rate[int]
-    - id: old[int], new[int]
-
-| Command       |  Description |
-|---------------|--------------|
-| `--ping`      | pings one or all of the servos |
-| `--reboot`    | reboots one or all servos |
-| `--reset`     | resets one or all servos to a specified level |
-| `--angle`     | sets the angle of a given servo |
-| `--baudrate`  | change the baud rate of the servos |
-| `--id`        | changes the ID number for a given servo |
+    - **ping**: find servos on bus, ID[int]
+    - **reboot**: reboot a servo, ID[int]
+    - **reset**: reset a servo, ID[int], level[int]
+    - **angle**: set new angle in degrees or radians, angle[float], radians[True|**False**]
+    - **baudrate**: set new baudrate, rate[int]
+    - **id**: set new ID, current_id[int], new_id[int]
+- Values
+    - ID: 1-254
+    - level: 1 (all), 2(all but ID), 3 (all but ID and baudrate)
+    - angle: 0-300 degrees
 
 # Documentation
 

@@ -1,5 +1,5 @@
 # from typing import List, Sequence
-from servo_serial import ServoSerial # type: ignore
+from .servo_serial import ServoSerial # type: ignore
 import time
 
 try:
