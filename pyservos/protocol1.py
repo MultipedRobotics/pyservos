@@ -72,8 +72,8 @@ class Protocol1:
         pkt = self.makePacket(ID, self.REBOOT)
         return pkt
 
-    def makeGetAngle(self, ID):
-        pkt = self.makeReadPacket(ID, )
+    # def makeGetAngle(self, ID):
+    #     pkt = self.makeReadPacket(ID, )
 
     def makeServoMovePacket(self, ID, angle, degrees=True):
         """
@@ -115,6 +115,28 @@ class Protocol1:
             angle = angle2int(cmd[1], degrees)
             data.append(angle[0])  # LSB
             data.append(angle[1])  # MSB
+
+        pkt = self.makeSyncWritePacket(self.GOAL_POSITION, data)
+        return pkt
+
+    def makeSyncMoveSpeedPacket(self, info, degrees=True):
+        """
+        Write sync angle information to servos.
+
+        info = [[ID, angle, speed], [ID, angle, speed], ...]
+        ID: servo ID
+        angle: 0-300 degrees or in radians
+        speed: 0-1023
+        """
+        data = []
+        for cmd in info:
+            data.append(cmd[0])  # ID
+            angle = angle2int(cmd[1], degrees)
+            data.append(angle[0])  # LSB
+            data.append(angle[1])  # MSB
+            speed = le(cmd[2])
+            data.append(speed[0])  # LSB
+            data.append(speed[1])  # MSB
 
         pkt = self.makeSyncWritePacket(self.GOAL_POSITION, data)
         return pkt

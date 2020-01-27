@@ -154,7 +154,8 @@ class ServoSerial:
         num = self.serial.write(bpkts)
         return num
 
-    def sendPkt(self, pkt: List[int], retry: int=5, sleep_time: float=0.01) -> Union[List[int], None]:
+    # def sendPkt(self, pkt: List[int], retry: int=5, sleep_time: float=0.01) -> Union[List[int], None]:
+    def sendPkt(self, pkt, retry=5, sleep_time=0.01): # (Sequence[int], int, float)-> Union[List[int], None]
         """
         Sends a packet and waits for a return. If no return is given, then it
         resends the packet. If an error occurs, it also resends the packet.
