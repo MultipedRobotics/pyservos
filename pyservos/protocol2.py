@@ -1,5 +1,8 @@
-
+from enum import IntFlag
 from pyservos.utils import angle2int, le
+from pyservos.common import ResetLevels
+
+# ResetLevels = IntFlag('ResetLevels', 'all allButID allButIDDR')
 
 crc_table = [
     0x0000, 0x8005, 0x800F, 0x000A, 0x801B, 0x001E, 0x0014, 0x8011,
@@ -77,11 +80,27 @@ class Protocol2:
         pkt = self.makePacket(ID, self.READ, [reg, values])
         return pkt
 
-    def makeResetPacket(self, ID, level=0):
+    # def makeResetPacket(self, ID, level=0):
+    #     """
+    #     Resets a servo.
+    #     """
+    #     params = [XL320.RESET_ALL_BUT_ID]
+    #     pkt = self.makePacket(ID, self.RESET, params)
+    #     return pkt
+
+    def makeResetPacket(self, ID, level):
         """
         Resets a servo.
         """
-        params = [XL320.RESET_ALL_BUT_ID]
+        if ResetLevels.all == level:
+            params = [self.RESET_ALL]
+        elif ResetLevels.allButID == level:
+            params = [self.RESET_ALL_BUT_ID]
+        elif ResetLevels.allButIDDR == level:
+            params = [self.RESET_ALL_BUT_ID_BAUD_RATE]
+        else:
+            raise Exception("Invalid reset level")
+
         pkt = self.makePacket(ID, self.RESET, params)
         return pkt
 

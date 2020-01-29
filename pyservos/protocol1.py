@@ -1,11 +1,17 @@
-
+from enum import IntFlag
 from pyservos.utils import angle2int, le
+from pyservos.common import ResetLevels
+# from typing import Sequence, List, Union
 
 
 class Protocol1:
     """
-    This is a wrapper class for the xl-320 and ax-12 servos. It can only talk
+    This is a wrapper class for the ax-12 servos. It can only talk
     to one servo type at a time.
+
+    Note: this class cannot be used by itself, since it references parameters
+    that are not part of the class. The child class will set the value of
+    these registers (i.e., self.WRITE, self.READ)
     """
 
     def makePingPacket(self, ID=None):
@@ -40,11 +46,22 @@ class Protocol1:
         pkt = self.makePacket(ID, self.READ, [reg, values])
         return pkt
 
-    def makeResetPacket(self, ID, level=0):
+    def makeResetPacket(self, ID, level=3):
         """
         Resets a servo.
+        1 - all
+        2 - all but ID
+        3 - all but ID and baudrate (default)
         """
-        pkt = self.makePacket(ID, self.RESET, None)
+        if ResetLevel.all == level:
+            lvl = self.RESET_ALL
+        elif ResetLevel.allButID == level:
+            lvl = self.RESET_ALL_BUT_ID
+        else:  # set as default since it is the safest if things go bad
+            lvl = self.RESET_ALL_BUT_ID_BAUD_RATE
+
+        # pkt = self.makePacket(ID, self.RESET, [lvl])
+        ptk = None
         return pkt
 
     def makeRebootPacket(self, ID):
@@ -55,18 +72,25 @@ class Protocol1:
         pkt = self.makePacket(ID, self.REBOOT)
         return pkt
 
+    # def makeGetAngle(self, ID):
+    #     pkt = self.makeReadPacket(ID, )
+
     def makeServoMovePacket(self, ID, angle, degrees=True):
         """
-        Commands the servo to an angle (0-300) in degrees or counts (0-1023)
+        Commands the servo to an angle (0-300 deg) or radians (0-5.24 rads)
+        angle: [0-300] deg or [0.0-5.24] rads
+        degrees: True (default) or False
         """
-        if degrees:
-            # if 0 > val > 300:
-            #     raise Exception("makeServoMovePacket[0-300] is out of range:", angle)
-            val = angle2int(angle, degrees)
-        else:
-            # if 0 > val > 1023:
-            #     raise Exception("makeServoMovePacket[0-1023] is out of range:", angle)
-            val = le(angle)
+        val = angle2int(angle, degrees)
+        pkt = self.makeWritePacket(ID, self.GOAL_POSITION, val)
+
+        return pkt
+
+    def makeServoMoveCountsPacket(self, ID, angle):
+        """
+        Commands the servo to an angle in counts (0-1023)
+        """
+        val = le(int(angle))
         pkt = self.makeWritePacket(ID, self.GOAL_POSITION, val)
 
         return pkt
@@ -91,6 +115,28 @@ class Protocol1:
             angle = angle2int(cmd[1], degrees)
             data.append(angle[0])  # LSB
             data.append(angle[1])  # MSB
+
+        pkt = self.makeSyncWritePacket(self.GOAL_POSITION, data)
+        return pkt
+
+    def makeSyncMoveSpeedPacket(self, info, degrees=True):
+        """
+        Write sync angle information to servos.
+
+        info = [[ID, angle, speed], [ID, angle, speed], ...]
+        ID: servo ID
+        angle: 0-300 degrees or in radians
+        speed: 0-1023
+        """
+        data = []
+        for cmd in info:
+            data.append(cmd[0])  # ID
+            angle = angle2int(cmd[1], degrees)
+            data.append(angle[0])  # LSB
+            data.append(angle[1])  # MSB
+            speed = le(cmd[2])
+            data.append(speed[0])  # LSB
+            data.append(speed[1])  # MSB
 
         pkt = self.makeSyncWritePacket(self.GOAL_POSITION, data)
         return pkt
@@ -148,6 +194,10 @@ class Protocol1:
             self.GOAL_VELOCITY,
             le(speed)
         )
+        return pkt
+
+    def makeServoInfoPacket(self, ID):
+        pkt = self.makeReadPacket()
         return pkt
 
     def decodePacket(self, pkts):

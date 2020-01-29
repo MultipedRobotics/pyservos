@@ -1,19 +1,18 @@
-![](https://raw.githubusercontent.com/MomsFriendlyRobotCompany/pyservos/master/pics/complex.gif)
+![](https://raw.githubusercontent.com/MultipedRobotics/pyservos/master/pics/dynamixel.jpg)
+
+[![Actions Status](https://github.com/MultipedRobotics/dh/workflows/CheckPackage/badge.svg)](https://github.com/MultipedRobotics/pyservos/actions)
+![GitHub](https://img.shields.io/github/license/multipedrobotics/pyservos)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/pyservos)
+![PyPI](https://img.shields.io/pypi/v/pyservos)
 
 # pyServos
 
 **Still under development**
 **Starting to add XL-430 servo**
 
-**WARNING:** As I add new servos, might change some of the class names because
-I don't think they make sense now. Maybe: Protocol1 (AX) and Protocol2 (XL)
-
-This is still a work in progress and **only** supports AX-12A and XL-320. The
-library is divided up as follows:
-
 - pyservos
-    - **ServoSerial** - half duplex hardware serial interface
-    - **Packet** - creates packets to talk to the servo
+    - **ServoSerial** - half duplex hardware serial interface using DTR from a USB serial port
+    - **PiServoSerial** - half duplex hardware serial interface using a HW pin
     - **utils** - misc
     - **XL320** - register/command/error definitions for Dynamixel's XL-320 servo
     - **AX12** - register/command/error definitions for Dynamixel's AX-12A servo
@@ -27,34 +26,39 @@ The suggested way to install this is via the `pip` command as follows::
 
     pip install pyservos
 
-If you intend to install on an Raspberry Pi and use a GPIO pin as the `DTR` pin,
-then do:
-
-    pip install pyservos[GPIO]
-
-This will also install `RPi.GPIO`  package, but this *only* works on an RPi.
-
 ## Development
 
-To submit git pulls, clone the repository and set it up as follows:
+I am currently using [poetry](https://python-poetry.org/) for my library and using
+`pyproject.toml`. To submit git pulls, clone the repository and set it up as
+follows:
 
-    git clone https://github.com/walchko/pyservos
+    git clone https://github.com/MultipedRobotics/pyservos
     cd pyservos
-    pip install -e .
+    poetry install
+    poety run pytest
 
 # Usage
 
 The `\bin` directory has a number of useful programs to set servo position or ID number. Just
 run the command with the `--help` flag to see how to use it.
 
-| Command              |  Description |
-|----------------------|--------------|
-| `servo_ping.py`      | pings one or all of the servos |
-| `servo_reboot.py`    | reboots one or all servos |
-| `servo_reset.py`     | resets one or all servos to a specified level |
-| `set_angle.py`       | sets the angle of a given servo |
-| `set_baud_rate.py`   | change the baud rate of the servos |
-| `set_id.py`          | changes the ID number for a given servo |
+- `servoAX12`
+- `servoXL320`
+- `servoXL430`
+
+ - servoXXX
+    - **ping**: find servos on bus, ID[int|**None**]
+    - **reboot**: reboot a servo, ID[int|**None**]
+    - **reset**: reset a servo, ID[int], level[int]
+    - **angle**: set new angle in degrees or radians, angle[float], radians[True|**False**]
+    - **baudrate**: set new baudrate, rate[int]
+    - **id**: set new ID, current_id[int], new_id[int]
+- Values
+    - ID: 1-254
+    - level: 1 (all), 2(all but ID), 3 (all but ID and baudrate)
+    - angle: 0-300 degrees
+    - rate: 1000000 is default
+    - None: if you leave out the value, there is a default that occurs which is safe
 
 # Documentation
 
@@ -66,13 +70,14 @@ A simple example to turn the servo and turn the LED on using a USB serial conver
 
 ```python
 # Run an AX-12 servo
-from pyservos import ServoSerial, Packet, AX12
+from pyservos.servo_serial import ServoSerial
+from pyservos.ax12 import AX12
 
 serial = ServoSerial('/dev/tty.usbserial')  # tell it what port you want to use
 # serial = ServoSerial('dummy')  # use a dummy serial interface for testing
 serial.open()
 
-ax = Packet(AX12)
+ax = AX12()
 pkt = ax.makeServoPacket(1, 158.6)  # move servo 1 to 158.6 degrees
 ret = serial.sendPkt(pkt)  # send packet, I don't do anything with the returned status packet
 
@@ -85,10 +90,10 @@ your own using the basic `makeWritePacket` and `makeReadPacket`.
 
 ```python
 # Run an XL-320 servo
-from pyservos import Packet, XL320
+from pyservos.xl320 import XL320
 from pyservos.utils import angle2int
 
-xl = Packet(XL320)
+xl = XL320()
 
 # let's make our own servo packet that sends servo 3 to 220.1 degrees
 ID = 3
@@ -99,16 +104,13 @@ pkt = xl.makeWritePacket(ID, reg, params)
 
 ## Robot Examples
 
-Here are some example [robots](https://github.com/MomsFriendlyRobotCompany/pyservos/tree/master/docs/robots)
-
-# ToDo
-
-- change `bin`
+Here are some example [robots](https://github.com/MultipedRobotics/pyservos/tree/master/docs/robots)
 
 # Change Log
 
 | | | |
 |------------|-------|--------------------------------------------|
+| 2020-01-25 | 2.0.0 | re-architected around protocols rather than servos types |
 | 2018-04-30 | 1.0.1 |  API fixes and starting to add 430 support |
 | 2018-02-17 | 1.0.0 |  added AX-12 support and renamed the library |
 | 2017-04-01 | 0.9.0 |  added python3 support |

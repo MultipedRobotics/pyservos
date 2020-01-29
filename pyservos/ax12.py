@@ -1,24 +1,30 @@
-# ##############################################
-# # The MIT License (MIT)
-# # Copyright (c) 2016 Kevin Walchko
-# # see LICENSE for full details
-# ##############################################
-#
+from pyservos.protocol1 import Protocol1
+from enum import IntFlag
+
+P1Errors = IntFlag('P1Errors',
+    {
+        'voltage':     2**0, # voltage is outside operating range
+        'angle':       2**1, # invalid angle
+        'overheat':    2**2, # temperature is out of range
+        'range':       2**3, # instruction is out of range
+        'checksum':    2**4, # invalid checksum
+        'overload':    2**5, # current can't meet required torque
+        'instruction': 2**6, # invalid instruction
+        'none':        2**7  # not used
+    }
+)
 
 
-from __future__ import division
-from __future__ import print_function
-# from .utils import le, angle2int
-from pyservos import ServoTypes
-
-
-class AX12(object):
+class AX12(Protocol1):
+    # registers
     """
     This class handles the AX-12A servo using Dynimel's Protocol version 1.0.
     """
-    SERVO_ID = 1  # used to tell AX and XL servos appart
-    SERVO_TYPE = ServoTypes.ax12
+    # SERVO_ID = 1  # used to tell AX and XL servos appart
+    # SERVO_TYPE = ServoTypes.ax12
     MAX_RPM = int(59/0.111)
+    MAX_ANGLE = 300
+    NAME = "AX-12A"
 
     # --------- INSTRUCTIONS -----
     PING      = 0x01
@@ -26,8 +32,8 @@ class AX12(object):
     WRITE     = 0x03
     REG_WRITE = 0x04
     ACTION    = 0x05
-    RESET     = 0x06
-    # REBOOT    = 0x08
+    RESET     = 0x06 # reset to factory levels: 1,2,3
+    REBOOT    = 0x08
     # STATUS    = 0x55
     # SYNC_READ  = 0x82
     SYNC_WRITE = 0x83
@@ -71,107 +77,9 @@ class AX12(object):
     WHEEL_MODE                 = 1
     JOINT_MODE                 = 2  # normal servo
     DR_1000000                 = 1  # bps = 2000000/(data + 1)
-
-    def __init__(self):
-        pass
-
-    def __str__(self):
-        return 'AX-12A'
-
-    def type(self):
-        return self.SERVO_TYPE
-
-    @staticmethod
-    def check_sum(data):
-        """
-        checksum = 255 - ((id + length + data1 + data2 + ... + dataN) & 255)
-        """
-        # print(data)
-        return 255 - (sum(data) & 255)
-
-    def makePacket(self, ID, instr, params=None):
-        """
-        This makes a generic packet.
-
-        0xFF, 0xFF, ID, LENGTH, INST, PARAM 1, PARAM 2, ..., PARAM N, CHECKSUM]
-        in:
-            ID - servo id
-            instr - instruction
-            params - instruction parameter values
-        out: packet
-        """
-        pkt = [0xff, 0xff, ID]
-        if params:
-            # print(params)
-            length = len(params) + 2
-            pkt += [length, instr]
-            pkt += params
-            # print(self.check_sum(pkt[2:]))
-            pkt += [self.check_sum(pkt[2:])]
-        else:
-            pkt += [2, instr, self.check_sum([ID, 2, instr])]
-
-        return pkt
-
-    def find_packets(self, pkt):
-        """
-        Search through a string of binary for a valid ax-12 package.
-
-        in: buffer to search through
-        out: a list of valid data packet
-        """
-        # print('findpkt', pkt)
-        # print('-----------------------')
-        ret = []
-        while len(pkt)-6 >= 0:
-            try:
-                # print(pkt)
-                # check for header
-                if pkt[0:2] != [0xFF, 0xFF]:
-                    pkt.pop(0)  # get rid of the first index
-                    continue
-                length = pkt[3]  # get length
-                crc_pos = 3 + length
-                pkt_crc = pkt[crc_pos]  # packet crc
-                crc = self.check_sum(pkt[2:crc_pos])  # calculated crc
-                if pkt_crc == crc:
-                    pkt_end = crc_pos+1
-                    ret.append(pkt[:pkt_end])
-                    del pkt[:pkt_end]
-                else:
-                    pkt.pop(0)
-            except Exception:
-                pkt.pop(0)
-        return ret
-
-    def status_packet(self, pkt):
-        def getError(err):
-            errors = [
-                'Input Voltage',  # 0
-                'Angle Limit',
-                'Overheating',
-                'Range',
-                'Checksum',
-                'Overload',
-                'Instrunction',
-                'None'  # 7
-            ]
-            # ret = None
-            if not (err == 128 or err == 0):
-                err_str = []
-                for i in range(0, 8):
-                    if (err >> i) & 1:
-                        err_str.append(errors[i])
-                ret = ','.join(err_str)
-            else:
-                ret = errors[7]
-            return ret
-
-        ret = {
-            'id': pkt[2],
-            'error str': getError(pkt[4]),
-            'error num': pkt[4],
-            'params': pkt[5:-1],
-            'raw': list(pkt)
-        }
-        return ret
+    DR_500000                  = 2
+    DR_400000                  = 4
+    DR_250000                  = 7
+    DR_200000                  = 9
+    DR_115200                  = 16
+    DR_57600                   = 34
