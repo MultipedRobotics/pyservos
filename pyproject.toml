@@ -38,5 +38,8 @@ mypy = "*"
 # ignore_missing_imports = True
 
 [build-system]
-requires = ["poetry>=0.12"]
-build-backend = "poetry.masonry.api"
+# requires = ["poetry>=0.12"]
+# build-backend = "poetry.masonry.api"
+
+requires = ["setuptools>=40.8.0", "wheel"]
+build-backend = "setuptools.build_meta:__legacy__"
