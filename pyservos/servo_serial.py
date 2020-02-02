@@ -8,6 +8,7 @@
 from typing import Sequence, Union, List
 import serial as PySerial # type: ignore
 import time
+from colorama import Fore
 # import pty
 # import platform
 
@@ -62,30 +63,23 @@ class ServoSerial:
         # self.serial.timeout = 0.0001  # time out waiting for blocking read()
         self.serial.timeout = 0.005
 
-        # this only gets used on linux with GPIO
-        # if pi_pin:
-        #     self.pi_pin = pi_pin
-        #     GPIO.setup(pi_pin, GPIO.OUT)
-
     def __del__(self) -> None:
         """
         Destructor: closes the serial port
         """
         self.close()
 
-        # this only gets used on linux with GPIO
-        # if self.pi_pin:
-        #     GPIO.cleanup()
-
     def setRTS(self, level: bool) -> None:
         time.sleep(self.SLEEP_TIME)
         # only need one of these, but the lazy option to if statements to determine
         # if using DTR or RTS as the direction pin
-        # if self.pi_pin:
-        #     GPIO.output(self.pi_pin, not level)
-        # else:
+        # normal for my boards
         self.serial.dtr = level
         self.serial.rts = level
+
+        # diff
+        # self.serial.dtr = not level
+        # self.serial.rts = not level
 
     def open(self) -> None:
         if self.serial.is_open:
@@ -106,7 +100,7 @@ class ServoSerial:
         """
         Transforms the raw buffer data read in into a list of bytes
 
-        does serial.to_bypes() do the same thing?
+        does serial.to_bytes() do the same thing?
         """
         pp = list(bytearray(buff))
         if 0 == len(pp) == 1:
@@ -120,12 +114,13 @@ class ServoSerial:
         packets of info. If there is more than one packet, this returns an
         array of valid packets.
         """
-        self.setRTS(self.DD_READ)
+        # self.setRTS(self.DD_READ)
+        # time.sleep(0.001)
 
         data = self.serial.read(how_much)
         # print('read() data', data, 'len(data)', len(data))
         if data:
-            # print('>>', data)
+            # print('>> read:', data)
             data = self.decode(data)
             # print('decode', data)
             # ret = Packet.findPkt(data)
@@ -145,17 +140,23 @@ class ServoSerial:
         return:
             number of bytes written to serial port
         """
+        # print('>> write:', pkt)
         self.setRTS(self.DD_WRITE)
-        self.serial.flushInput()
+        # self.serial.flushInput() # can cause problems
         # prep data array for transmition
         pkts = bytearray(pkt)
         bpkts = bytes(pkts)
 
         num = self.serial.write(bpkts)
+
+        # want to allow the servos max time to respond, if write line held too
+        # long, then you will NOT get a response
+        self.setRTS(self.DD_READ)
+
         return num
 
     # def sendPkt(self, pkt: List[int], retry: int=5, sleep_time: float=0.01) -> Union[List[int], None]:
-    def sendPkt(self, pkt, retry=5, sleep_time=0.01): # (Sequence[int], int, float)-> Union[List[int], None]
+    def sendPkt(self, pkt, retry=5, sleep_time=0.001): # (Sequence[int], int, float)-> Union[List[int], None]
         """
         Sends a packet and waits for a return. If no return is given, then it
         resends the packet. If an error occurs, it also resends the packet.
@@ -167,18 +168,27 @@ class ServoSerial:
             None or response packet
         """
 
+        ID = pkt[2]
+
         ans = None
-        while retry:
-            # print('wrote', retry)
+        # while retry:
+        for _ in range(retry):
             self.write(pkt)  # send packet to servo
-            time.sleep(0.001)  # need to wait some time between read/write
+            # time.sleep(0.001)  # need to wait some time between read/write, max time is 508 usec for servo
             ans = self.read()  # get return status packet
 
-            if ans:
-                break
+            if ans and len(ans) > 7:
+                ret_id = ans[2]
+                if ID == ret_id:
+                    # print(Fore.GREEN + f">> {ID} == {ret_id}" + Fore.RESET)
+                    break
+                else:
+                    print(Fore.RED + f"** Packet has invalid ID, expect: {ID} got: {ret_id}" + Fore.RESET)
+            # else:
+            #     print(Fore.RED + f">> no packet" + Fore.RESET)
 
             time.sleep(sleep_time)
-            retry -= 1
+            # retry -= 1
 
         return ans
 

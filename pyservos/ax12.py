@@ -34,11 +34,8 @@ class AX12(Protocol1):
     ACTION    = 0x05
     RESET     = 0x06 # reset to factory levels: 1,2,3
     REBOOT    = 0x08
-    # STATUS    = 0x55
-    # SYNC_READ  = 0x82
     SYNC_WRITE = 0x83
     BULK_READ  = 0x92
-    # BULK_WRITE = 0x93
 
     # -------- EEPROM -------------
     MODEL_NUMBER    = 0
@@ -57,13 +54,14 @@ class AX12(Protocol1):
     LED              = 25
     GOAL_POSITION    = 30
     GOAL_VELOCITY    = 32
-    GOAL_TORQUE      = 35
-    PRESENT_POSITION = 37  # current servo angle
-    PRESENT_SPEED    = 39  # current speed
-    PESENT_LOAD      = 41  # current load
-    PESENT_VOLTAGE   = 45  # current voltage
-    PESENT_TEMP      = 46  # current temperature
-    MOVING           = 49
+    GOAL_TORQUE      = 34
+    PRESENT_POSITION = 36  # current servo angle
+    PRESENT_SPEED    = 38  # current speed
+    PESENT_LOAD      = 40  # current load
+    PESENT_VOLTAGE   = 42  # current voltage
+    PESENT_TEMP      = 43  # current temperature
+    MOVING           = 46
+    PUNCH            = 48
     HW_ERROR_STATUS  = 50
     PUNCH            = 51
 

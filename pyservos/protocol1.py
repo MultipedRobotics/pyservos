@@ -43,7 +43,11 @@ class Protocol1:
         sure the values are in little endian (use Packet.le() if necessary) for 16 b
         (word size) values.
         """
-        pkt = self.makePacket(ID, self.READ, [reg, values])
+        if values:
+            params = [reg] + values
+        else:
+            params = [reg]
+        pkt = self.makePacket(ID, self.READ, params)
         return pkt
 
     def makeResetPacket(self, ID, level=3):
@@ -70,6 +74,10 @@ class Protocol1:
         """
 
         pkt = self.makePacket(ID, self.REBOOT)
+        return pkt
+
+    def makeSetIDPacket(self, id, new_id):
+        pkt = self.makeWritePacket(id, self.ID, [new_id])
         return pkt
 
     # def makeGetAngle(self, ID):
@@ -165,7 +173,10 @@ class Protocol1:
         """
         ID = self.BROADCAST_ADDR
         instr = self.BULK_READ
-        pkt = self.makePacket(ID, instr, data)  # create packet
+        dd = []
+        for d in data:
+            dd += d
+        pkt = self.makePacket(ID, instr, dd)  # create packet
         return pkt
 
     def makeLEDPacket(self, ID, value):
@@ -197,8 +208,12 @@ class Protocol1:
         return pkt
 
     def makeServoInfoPacket(self, ID):
-        pkt = self.makeReadPacket()
+        pkt = self.makeReadPacket(ID, self.MODEL_NUMBER, [5])
         return pkt
+
+    # makeReadPacket(self, ID, reg, values=None)
+    def makeReadAnglePacket(self, ID):
+        return self.makeReadPacket(ID, self.PRESENT_POSITION, [2])
 
     def decodePacket(self, pkts):
         return self.find_packets(pkts)

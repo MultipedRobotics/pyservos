@@ -19,7 +19,7 @@ from math import pi
 # from lib import set_id
 # from lib import set_angle
 # from lib import get_angle
-from lib import loop, handleArgs
+from lib import loop, handleArgs, ping
 from colorama import Fore, Back
 import platform  # system info
 
@@ -158,17 +158,44 @@ def main(servo):
         print(f">> set servo[{args['id']}] angle: {angle}")
 
         pkt = servo.makeServoMovePacket(args['id'], angle)
-        serial.write(pkt)
+        serial.sendPkt(pkt)
 
     elif choice == "set_id":
         if 'current_id' not in args or 'new_id' not in args:
             print("Invalid input")
             exit(1)
-        print(f">> set servo[{args['id']}]: current: {args['current_id']} new: {args['new_id']}")
+        if 0 > args['new_id'] > 253:
+            print("Invalid ID number, must be between 0-253")
+            exit(1)
+        print(f">> set servo[{args['current_id']}] to new ID: {args['new_id']}")
+        pkt = servo.makeSetIDPacket(args['current_id'], args['new_id'])
+        serial.write(pkt)
 
     elif choice == "get_angle":
-        print(Fore.RED + "Not currently implemented" + Fore.RESET)
+        # print(Fore.RED + "Not currently implemented" + Fore.RESET)
         print(f">> get current angle from servo: {args['id']}")
+        pkt = servo.makeReadAnglePacket(args['id'])
+        # pkt = servo.makeServoInfoPacket(args['id'])
+        d = [
+            # [data len, ID, addr]
+            [2, 1, servo.PRESENT_POSITION],
+            [2, 2, servo.PRESENT_POSITION],
+            [2, 3, servo.PRESENT_POSITION],
+        ]
+        pkt = servo.makeBulkReadPacket(d)
+        # print(pkt)
+        ans = serial.sendPkt(pkt)
+        # print(Fore.BLUE + str(ans) + Fore.RESET)
+        print("<<", ans)
+
+        ans = servo.find_packets(ans)
+        if ans:
+            print(ans[0])
+            ans = ans[0]
+            err = ans[4]
+            angle = (ans[6]<<8) + ans[5]
+            deg = angle * 300/1023
+            print(f">> Angle: {angle} cnts {deg} deg")
 
     elif choice == "reboot":
         print(f">> reboot servo: {args['id']}")

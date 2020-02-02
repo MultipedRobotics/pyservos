@@ -5,21 +5,16 @@
 ##############################################
 # Tests for continous integration
 import pytest
-# from __future__ import print_function, division
-# from pyservos import Packet
 from pyservos.utils import angle2int, le
 from pyservos.ax12 import AX12
-from pyservos.xl320 import XL320
-# from pyservos import ServoSerial
-# from nose.tools import raises
 from math import pi
 
 
-def packet_check(a, b):
-    assert len(a) == len(b)
-    for aa, bb in zip(a, b):
-        # print(aa, bb)
-        assert aa == bb
+# def packet_check(a, b):
+#     assert len(a) == len(b)
+#     for aa, bb in zip(a, b):
+#         # print(aa, bb)
+#         assert aa == bb
 
 
 # #####################################################
@@ -93,6 +88,12 @@ def test_ax12_fail_find_packets():
             assert a
 
 
+def test_ax12_read_angle():
+    ans = [255, 255, 1, 4, 2, 36, 2, 210]
+    ax = AX12()
+    pkt = ax.makeReadAnglePacket(1)
+    assert pkt == ans, f"{pkt} != {ans}"
+
 def test_ax12_check_sum():
     # data packets from:
     # http://support.robotis.com/en/product/actuator/dynamixel/communication/dxl_instruction.htm
@@ -125,8 +126,14 @@ def test_ax12_sync_write():
     pkt = ax.makeSyncWritePacket(AX12.GOAL_POSITION, path)
     # for p, a in zip(pkt, ans):
     #     assert p == a
-    packet_check(pkt, ans)
+    # packet_check(pkt, ans)
+    assert pkt == ans, f"{ans} != {pkt}"
 
+
+def test_ax12_bulk_read():
+    ax = AX12()
+    ans = [255, 255, 254, 11, 146, 2, 1, 36, 2, 2, 36, 2, 3, 36, 236]
+    assert True
 
 def test_ax12_angle_packet():
     ax = AX12()
@@ -134,7 +141,19 @@ def test_ax12_angle_packet():
     # print(dpkt)
     rpkt = ax.makeServoMovePacket(1, 116*pi/180, degrees=False)
     # print(rpkt)
-    packet_check(dpkt, rpkt)
+    # packet_check(dpkt, rpkt)
+    assert dpkt == rpkt, f"{dpkt} != {rpkt}"
+
+    ans = [255, 255, 1, 5, 3, 30, 255, 1, 216]
+    pkt = ax.makeServoMovePacket(1, 150)
+    assert ans == pkt, f"{ans} != {pkt}"
+
+def test_ax12_ping_packet():
+    ans = [255, 255, 254, 2, 1, 254]
+    ax = AX12()
+    pkt = ax.makePingPacket()
+
+    assert pkt == ans, f"{pkt} != {ans}"
 
 
 # @raises(Exception)
@@ -148,7 +167,7 @@ def test_ax12_led_fail():
 #####################################################
 # XL-320 Tests
 #####################################################
-# 
+#
 # def test_error_packet():
 #     xl = XL320()
 #
