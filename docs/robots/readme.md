@@ -17,3 +17,19 @@ My quadruped robot.
 
 ![](2017-02-26-robot-front.JPG)
 ![](2017-02-26-robot-cat.JPG)
+
+# Other AX-12 Robots
+
+## Bioloid Spider
+
+![](bioloid-spider.png)
+
+[Spider build directions](bioloid.spider.pdf)
+
+# Other Cool Spiders
+
+[![](hebi_hexapod.png)](https://www.hebirobotics.com/robotic-kits)
+
+![](paper-walkers.jpg)
+
+![](spider-8-legs.jpg)
