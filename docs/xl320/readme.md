@@ -1,5 +1,9 @@
 ![](pics/xl-320.jpg)
 
+This is the cheaper version of the AX-12 using the newer protocol, but the
+Lego snap interface doesn't make tight fitting parts. The older screw/nut
+connections, which can be a pain at times, produces a better connection.
+
 ![](pics/my_test.jpg)
 
 - Weight : 16.7g

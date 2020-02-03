@@ -28,12 +28,6 @@ Material | Case : Engineering Plastic <br> Gear : Engineering Plastic
 Position Sensor | Potentiometer
 Default Setting | ID 1 (1 Mbps)
 
-# Manual
-
-[e-Manual](http://emanual.robotis.com/docs/en/dxl/ax/ax-12a/)
-
-[AX-12A dimensions](AX-12A.pdf)
-
 # Interfaces
 
 ![](pics/ax_series_circuit.png)
@@ -57,6 +51,13 @@ Default Setting | ID 1 (1 Mbps)
 ![](pics/AX-12-screws.png)
 
 ![](pics/AX-12-washers.png)
+
+# References
+
+- [Unwinding the AX12](Unwinding_the_AX12.pdf)
+- [Dimensions](AX-12A.pdf)
+- [e-Manual](http://emanual.robotis.com/docs/en/dxl/ax/ax-12a/)
+- [AX-12A manual](AX-12.pdf)
 
 ---
 

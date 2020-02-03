@@ -14,6 +14,17 @@ class Protocol1:
     these registers (i.e., self.WRITE, self.READ)
     """
 
+    # --------- INSTRUCTIONS -----
+    PING      = 0x01
+    READ      = 0x02
+    WRITE     = 0x03
+    REG_WRITE = 0x04
+    ACTION    = 0x05
+    RESET     = 0x06 # reset to factory levels: 1,2,3
+    REBOOT    = 0x08
+    SYNC_WRITE = 0x83
+    BULK_READ  = 0x92
+
     def makePingPacket(self, ID=None):
         """
         Pings a servo

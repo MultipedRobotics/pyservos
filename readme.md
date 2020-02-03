@@ -102,6 +102,12 @@ params = angle2int(220.1)  # convert 220.1 degrees to an int between 0-1023
 pkt = xl.makeWritePacket(ID, reg, params)
 ```
 
+## Dynaixel Servos
+
+![](pics/dynamixel-chart.jpg)
+
+![](pics/dynamixel-connectors.jpg)
+
 ## Robot Examples
 
 Here are some example [robots](https://github.com/MultipedRobotics/pyservos/tree/master/docs/robots)
