@@ -89,7 +89,9 @@ import platform  # system info
 #     return args
 
 
-def main(servo):
+def main():
+
+    servo = AX12()
 
     args = handleArgs()
 
@@ -217,5 +219,4 @@ def main(servo):
 
 
 if __name__ == "__main__":
-    servo = AX12()
-    main(servo)
+    main()
