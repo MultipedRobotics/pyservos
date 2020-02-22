@@ -19,7 +19,7 @@ from math import pi
 # from lib import set_id
 # from lib import set_angle
 # from lib import get_angle
-from lib import loop, handleArgs, ping
+from .lib import loop, handleArgs, ping
 from colorama import Fore, Back
 import platform  # system info
 
