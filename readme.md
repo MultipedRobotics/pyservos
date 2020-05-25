@@ -112,6 +112,12 @@ pkt = xl.makeWritePacket(ID, reg, params)
 
 Here are some example [robots](https://github.com/MultipedRobotics/pyservos/tree/master/docs/robots)
 
+# Other Software
+
+I haven't used these, but they seem good:
+
+- c++: [libdynamixel](https://github.com/resibots/libdynamixel)
+
 # Change Log
 
 | | | |
