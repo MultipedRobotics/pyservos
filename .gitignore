@@ -11,3 +11,4 @@ __pychache__
 *.json
 .mypy_cache
 .pytest_cache
+poetry.lock
