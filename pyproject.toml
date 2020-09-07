@@ -28,12 +28,12 @@ servoAX12 = "pyservos.bin.servoAX12:main"
 
 [tool.poetry.dependencies]
 python = ">=3.6"
-pyserial = "^3.4"
+pyserial = "*"
 colorama = "*"
 importlib-metadata = {version="*", python="<3.8"}
 
 [tool.poetry.dev-dependencies]
-pytest = "^5.2"
+pytest = "*"
 mypy = "*"
 
 # [mypy-pi_servo_serial]
