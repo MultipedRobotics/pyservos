@@ -178,21 +178,21 @@ def main():
         print(f">> get current angle from servo: {args['id']}")
         pkt = servo.makeReadAnglePacket(args['id'])
         # pkt = servo.makeServoInfoPacket(args['id'])
-        d = [
-            # [data len, ID, addr]
-            [2, 1, servo.PRESENT_POSITION],
-            [2, 2, servo.PRESENT_POSITION],
-            [2, 3, servo.PRESENT_POSITION],
-        ]
-        pkt = servo.makeBulkReadPacket(d)
+        # d = [
+        #     # [data len, ID, addr]
+        #     [2, 1, servo.PRESENT_POSITION],
+        #     # [2, 2, servo.PRESENT_POSITION],
+        #     # [2, 3, servo.PRESENT_POSITION],
+        # ]
+        # pkt = servo.makeBulkReadPacket(d)
         # print(pkt)
         ans = serial.sendPkt(pkt)
         # print(Fore.BLUE + str(ans) + Fore.RESET)
-        print("<<", ans)
+        # print("<<", ans)
 
         ans = servo.find_packets(ans)
         if ans:
-            print(ans[0])
+            # print(ans[0])
             ans = ans[0]
             err = ans[4]
             angle = (ans[6]<<8) + ans[5]

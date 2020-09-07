@@ -43,8 +43,10 @@ The `\bin` directory has a number of useful programs to set servo position or ID
 run the command with the `--help` flag to see how to use it.
 
 - `servoAX12`
-- `servoXL320`
-- `servoXL430`
+- `servoXL320` (not implemented)
+- `servoXL430` (not implemented)
+
+The above commands have the following format:
 
  - servoXXX
     - **ping**: find servos on bus, ID[int|**None**]
@@ -55,7 +57,7 @@ run the command with the `--help` flag to see how to use it.
     - **id**: set new ID, current_id[int], new_id[int]
 - Values
     - ID: 1-254
-    - level: 1 (all), 2(all but ID), 3 (all but ID and baudrate)
+    - reset level: 1 (all), 2(all but ID), 3 (all but ID and baudrate)
     - angle: 0-300 degrees
     - rate: 1000000 is default
     - None: if you leave out the value, there is a default that occurs which is safe
