@@ -48,6 +48,7 @@ def ping(serial, id):
 
     pkt = servo.makePingPacket(id)
     s.write(pkt)
+    time.sleep(0.1)
 
     found_servos = {}
 
@@ -117,7 +118,7 @@ def handleArgs(string=None):
     p.set_defaults(which='ping')
 
     # Get Angle----------------------------------------------------------------
-    ga = subparsers.add_parser('get', description="get servo angle")
+    ga = subparsers.add_parser('get_angle', description="get servo angle")
     ga.add_argument('id', help='get servo angle', type=int)
     ga.set_defaults(which='get_angle')
 
@@ -134,6 +135,7 @@ def handleArgs(string=None):
 
     # Set Baudrate ------------------------------------------------------------
     b = subparsers.add_parser('baudrate', description="set servo baudrate")
+    b.add_argument('id', help='get servo angle', type=int)
     b.add_argument('baudrate', help='set servo baudrate', type=int)
     b.set_defaults(which='set_baudrate')
 

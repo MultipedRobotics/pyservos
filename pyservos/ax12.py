@@ -74,10 +74,21 @@ class AX12(Protocol1):
     BROADCAST_ADDR             = 0xfe  # a packet with this ID will go to all servos
     WHEEL_MODE                 = 1
     JOINT_MODE                 = 2  # normal servo
-    DR_1000000                 = 1  # bps = 2000000/(data + 1)
-    DR_500000                  = 2
-    DR_400000                  = 4
-    DR_250000                  = 7
-    DR_200000                  = 9
-    DR_115200                  = 16
-    DR_57600                   = 34
+    # DR_1000000                 = 1  # bps = 2000000/(data + 1)
+    # DR_500000                  = 2
+    # DR_400000                  = 4
+    # DR_250000                  = 7
+    # DR_200000                  = 9
+    # DR_115200                  = 16
+    # DR_57600                   = 34
+    datarates = {
+        1000000: 1,
+         500000: 3,
+         400000: 4,
+         250000: 7,
+         200000: 9,
+         115200: 16,
+          57600: 34,
+          19200: 103,
+           9600: 207
+    }

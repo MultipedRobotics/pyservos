@@ -105,6 +105,13 @@ class Protocol1:
 
         return pkt
 
+    def makeBaudRatePacket(self, ID, baudrate):
+        if baudrate not in self.datarates:
+            raise Exception(f"{Fore.RED}*** Invalid datarate: {baudrate}***{Fore.RESET}")
+        val = self.datarates[baudrate]
+        pkt = self.makeWritePacket(ID, self.BAUD_RATE, [val])
+        return pkt
+
     def makeServoMoveCountsPacket(self, ID, angle):
         """
         Commands the servo to an angle in counts (0-1023)
@@ -269,11 +276,13 @@ class Protocol1:
         Search through a string of binary for a valid ax-12 package.
 
         in: buffer to search through
-        out: a list of valid data packet
+        out: a list of valid data packet or empty list
         """
         # print('findpkt', pkt)
         # print('-----------------------')
         ret = []
+        if not pkt:
+            return ret
         while len(pkt)-6 >= 0:
             try:
                 # print(pkt)

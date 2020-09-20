@@ -110,6 +110,10 @@ def main():
             print(Fore.RED + str(args) + Fore.RESET)
             exit(1)
 
+    if args['rate'] not in [9600, 19200, 57600, 115200, 1000000]:
+        print(f"{Fore.RED}*** {args['rate']} is an invalide buad rate ***{Fore.RESET}")
+        exit(1)
+
     if args['debug']:
         print(Fore.YELLOW + str(args) + Fore.RESET)
 
@@ -118,7 +122,7 @@ def main():
         from pyservos.pi_servo_serial import PiServoSerial
         serial = PiServoSerial(args['port'], args['dtr'])
     else:
-        serial = ServoSerial(args['port'])
+        serial = ServoSerial(args['port'], baud_rate=args['rate'])
 
     # try to open serial port
     try:
@@ -173,6 +177,18 @@ def main():
         pkt = servo.makeSetIDPacket(args['current_id'], args['new_id'])
         serial.write(pkt)
 
+    elif choice == "set_baudrate":
+        pkt = servo.makeBaudRatePacket(args['id'], args['baudrate'])
+        print(pkt)
+        ret = serial.sendPkt(pkt)
+        ans = servo.find_packets(ret)
+
+        if ans:
+            err = "{Fore.GREEN}OK" if ans[4] == 0 else "{Fore.RED}ERROR"
+            print(f">> Servo {ans[2]} is {err}{Fore.RESET}")
+        else:
+            print(f"{Fore.RED}*** Something went wrong, no status packet ***{Fore.RESET}")
+
     elif choice == "get_angle":
         # print(Fore.RED + "Not currently implemented" + Fore.RESET)
         print(f">> get current angle from servo: {args['id']}")
@@ -197,7 +213,7 @@ def main():
             err = ans[4]
             angle = (ans[6]<<8) + ans[5]
             deg = angle * 300/1023
-            print(f">> Angle: {angle} cnts {deg} deg")
+            print(f">> Angle: {Fore.GREEN}{angle} counts {Fore.CYAN}{deg:.1f} deg{Fore.RESET}")
 
     elif choice == "reboot":
         print(f">> reboot servo: {args['id']}")
