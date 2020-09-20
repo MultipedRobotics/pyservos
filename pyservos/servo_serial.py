@@ -33,15 +33,12 @@ class ArduinoSerial:
 
         self.serial.open()
 
-        # self.setRTS(self.DD_WRITE)
         if self.serial.isOpen():
             # print('Opened {} @ {}'.format(self.serial.name, self.serial.baudrate))
             # print(self.serial.get_settings())
             return True
 
         return False
-        # else:
-        #     raise Exception('Could not open {}'.format(self.serial.port))
 
     def close(self): # type: () -> None
         """
@@ -49,28 +46,20 @@ class ArduinoSerial:
         """
         if self.serial.is_open:
             self.serial.close()
-        # self.setRTS(False) # set DTR to 0V
 
     def write(self, pkt):
         pkts = bytearray(pkt)
         bpkts = bytes(pkts)
         self.serial.write(bpkts)
-        sleep(0.001)
+        time.sleep(0.001)
 
     def read(self):
         num = self.serial.in_waiting
         if num > 0:
             data = self.serial.read(num)
-            # for d in data:
-            #     print(int(d), end=',')
-            # print(" ")
             return list(bytearray(data))
-            # dd = servo.decodePacket(d)
-            # for d in dd:
-            #     print(servo.status_packet(d))
-        # else:
-        #     print(f"{Fore.RED}Oops ... {Fore.RESET}")
         return None
+
 
 class ServoSerial:
     """
