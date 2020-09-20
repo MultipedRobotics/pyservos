@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pyservos"
-version = "2.0.4"
+version = "2.1.0"
 description = "Yet another dynamixel python driver"
 authors = ["walchko <walchko@users.noreply.github.com>"]
 readme = "readme.md"
