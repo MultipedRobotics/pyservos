@@ -36,7 +36,7 @@ val = 1
 while True:
     val = 0 if val > 0 else 1
     # pkt = servo.makeWritePacket(1, 25, [val])
-    pkt = servo.makeLEDPacket(1, val)
+    pkt = servo.makeLEDPacket(AX12.BROADCAST_ADDR, val)
     ser.write(pkt)
     sleep(1)
 
