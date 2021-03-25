@@ -137,10 +137,12 @@ class Protocol1:
         # bulk = 94 bytes
         # sync = 50 bytes
         for cmd in info:
-            data.append(cmd[0])  # ID
+            dataN = [] # data for specific actuator
+            dataN.append(cmd[0])  # ID
             angle = angle2int(cmd[1], degrees)
-            data.append(angle[0])  # LSB
-            data.append(angle[1])  # MSB
+            dataN.append(angle[0])  # LSB
+            dataN.append(angle[1])  # MSB
+            data.append(dataN)
 
         pkt = self.makeSyncWritePacket(self.GOAL_POSITION, data)
         return pkt
@@ -156,13 +158,15 @@ class Protocol1:
         """
         data = []
         for cmd in info:
-            data.append(cmd[0])  # ID
+            dataN = [] # data for specific actuator
+            dataN.append(cmd[0])  # ID
             angle = angle2int(cmd[1], degrees)
-            data.append(angle[0])  # LSB
-            data.append(angle[1])  # MSB
+            dataN.append(angle[0])  # LSB
+            dataN.append(angle[1])  # MSB
             speed = le(cmd[2])
-            data.append(speed[0])  # LSB
-            data.append(speed[1])  # MSB
+            dataN.append(speed[0])  # LSB
+            dataN.append(speed[1])  # MSB
+            data.append(dataN)
 
         pkt = self.makeSyncWritePacket(self.GOAL_POSITION, data)
         return pkt
